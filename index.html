@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	
+	<!-- blockly resources: [harrison] -->
+	<!-- https://developers.google.com/blockly/guides/get-started/web -->
+	<!-- https://developers.google.com/blockly/guides/app-integration/running-javascript -->
+	<!-- https://developers.google.com/blockly/guides/configure/web/fixed-size -->
+	
+	<!-- block categories -->
+	<!-- https://developers.google.com/blockly/guides/configure/web/toolbox#block_groups -->
+	
+	<!-- blockly demo with list of block types (originally had to compile this myself) -->
+	<!-- https://blockly-demo.appspot.com/static/demos/blockfactory/index.html -->
+	
+	<!-- blockly core -->
+	<script src="blockly/blockly_compressed.js"></script>
+	<script src="blockly/blocks_compressed.js"></script>
+	
+	<script src="blockly/javascript_compressed.js"></script>
+	
+	<!-- messages for user's language -->
+	<script src="blockly/msg/js/en.js"></script>
+	
+	<!-- jquery, bootstrap -->
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- override bootstrap with my own css -->
+	<link rel="stylesheet" href="css/styles.css">
+
+	<!-- disable mobile zoom before iOS 10 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	
+	<!-- code to generate js from blockly -->
+	<script type="text/javascript" src="js/generate.js"></script>
+	
+	<script type="text/javascript">
+	
+	function runCodeClicked() {
+		try {
+			var code = Blockly.JavaScript.workspaceToCode(workspace);
+			alert("code: " + code);
+			
+		 	eval(code);
+		} catch (e) {
+		  alert(e);
+		}
+	}
+	</script>
+	
+</head>
+<body>
+	<img src="img/ghost.jpg" id="ghost" class="img-responsive center-block" />
+	
+	<div class="container">
+		<div class="row">
+			<h1>Blockly Test</h1>
+			<h2>By the Bit Banging Boiis</h2>
+			<h3>"OAUGHHHHH"   -- Bailey Miller, 2015</h3>
+		</div>
+		
+		<div class="row">
+			<!-- blockly div -->
+			<div id="blocklyDiv"></div>
+			
+			<!-- blockly toolbox -->
+			<xml id="toolbox" style="display: none">
+				
+				<category name="Colors" colour="20">
+			    	<block type="colour_picker"></block>
+			    	<block type="colour_rgb"></block>
+			    	<block type="colour_blend"></block>
+			    </category>
+			    
+			    <category name="Lists" colour="20">
+			    	<block type="lists_create_empty"></block>
+			    	<block type="lists_repeat"></block>
+			    	<block type="lists_reverse"></block>
+			    	<block type="lists_isEmpty"></block>
+			    	<block type="lists_length"></block>
+			    	<block type="lists_create_with"></block>
+			    	<block type="lists_create_with_container"></block>
+			    	<block type="lists_create_with_item"></block>
+			    	<block type="lists_indexOf"></block>
+			    	<block type="lists_getIndex"></block>
+			    	<block type="lists_setIndex"></block>
+			    	<block type="lists_sort"></block>
+			    	<block type="lists_split"></block>
+			    </category>
+			    
+			 	<category name="Logic" colour="210">
+			 		<block type="logic_boolean"></block>
+			 		<block type="logic_compare"></block>
+			 		<block type="logic_operation"></block>
+			 		<block type="logic_negate"></block>
+			 		<block type="logic_null"></block>
+			 		<block type="logic_ternary"></block>
+			 	</category>
+			 	
+			 	<category name="Controls" colour="210">
+			 		<block type="controls_if"></block>
+			 		<block type="controls_ifelse"></block>
+			 		<block type="controls_if_if"></block>
+			 		<block type="controls_if_elseif"></block>
+			 		<block type="controls_if_else"></block>
+			 	</category>
+			 	
+			    <category name="Loops" colour="120">
+			    	<block type="logic_compare"></block>
+		    	    <block type="logic_operation"></block>
+					<block type="logic_boolean"></block>
+			    </category>
+			    <category name="Math" colour="230">
+			    	<block type="math_number"></block>
+			    	<block type="math_arithmetic"></block>
+			    </category>
+			    <category name="Output" colour="20">
+			    	<block type="text"></block>
+			    	<block type="text_print"></block>
+			    </category>
+			    
+			    <category name="Variables" colour="330" custom="VARIABLE"></category>
+			    <category name="Functions" colour="290" custom="PROCEDURE"></category>
+			</xml>
+		</div>
+		
+		<div class="row">
+			<div id="generate">
+				<button type="button" class="btn btn-primary" onclick="runCodeClicked()">Run Code</button>
+			</div>
+		</div>
+	
+	</div>
+	
+	<!-- inject blockly into above div -->
+	<script>
+	  var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')} );
+	</script>
+</body>
+
+
+</html>

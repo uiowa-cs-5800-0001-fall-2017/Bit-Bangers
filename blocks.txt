@@ -1,0 +1,44 @@
+--- colour.js ---
+
+colour_picker
+colour_rgb
+colour_blend
+
+--- lists.js ---
+
+lists_create_empty
+lists_repeat
+lists_reverse
+lists_isEmpty
+lists_length
+
+lists_create_with
+lists_create_with_container
+lists_create_with_item
+lists_indexOf
+lists_getIndex
+lists_setIndex
+lists_sort
+lists_split
+
+--- logic.js ---
+
+logic_boolean
+logic_compare
+logic_operation
+logic_negate
+logic_null
+logic_ternary
+
+controls_if
+controls_ifelse
+controls_if_if
+controls_if_elseif
+controls_if_else
+
+--- loops.js ---
+
+controls_repeat_ext
+controls_repeat
+controls_whileUntil
+
