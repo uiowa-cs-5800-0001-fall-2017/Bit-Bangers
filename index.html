@@ -52,6 +52,9 @@
 	}
 	</script>
 	
+	<script type="text/javascript" src="game_blocks.js"></script>
+	<script type="text/javascript" src="game_generator.js"></script>
+	
 </head>
 <body>
 	<img src="img/ghost.jpg" id="ghost" class="img-responsive center-block" />
@@ -69,6 +72,10 @@
 			
 			<!-- blockly toolbox -->
 			<xml id="toolbox" style="display: none">
+				
+				<category name="Test" colour="20">
+			    	<block type="move_character"></block>
+			    </category>
 				
 				<category name="Colors" colour="20">
 			    	<block type="colour_picker"></block>
