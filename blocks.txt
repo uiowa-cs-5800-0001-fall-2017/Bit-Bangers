@@ -41,4 +41,35 @@ controls_if_else
 controls_repeat_ext
 controls_repeat
 controls_whileUntil
+controls_for
+controls_forEach
+controls_flow_statements
+
+--- math.js ---
+
+math_number
+math_arithmetic
+math_single
+math_trig
+math_constant
+math_number_property
+math_change
+math_round
+math_on_list
+math_modulo
+math_constrain
+math_random_int
+math_random_float
+
+--- text.js ---
+
+text
+text_join
+text_create_join_container
+text_create_join_item
+text_append
+text_length
+text_isEmpty
+text_indexOf
+text_charAt
 

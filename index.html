@@ -78,6 +78,8 @@
 			<!-- blockly toolbox -->
 			<xml id="toolbox" style="display: none">
 				
+				<!-- divided by category file name -->
+				
 				<category name="Game" colour="20">
 			    	<block type="move_character"></block>
 			    </category>
@@ -111,9 +113,7 @@
 			 		<block type="logic_negate"></block>
 			 		<block type="logic_null"></block>
 			 		<block type="logic_ternary"></block>
-			 	</category>
-			 	
-			 	<category name="Controls" colour="210">
+			 		
 			 		<block type="controls_if"></block>
 			 		<block type="controls_ifelse"></block>
 			 		<block type="controls_if_if"></block>
@@ -122,14 +122,45 @@
 			 	</category>
 			 	
 			    <category name="Loops" colour="120">
-			    	<block type="logic_compare"></block>
-		    	    <block type="logic_operation"></block>
-					<block type="logic_boolean"></block>
+			    	<block type="controls_repeat_ext"></block>
+		    	    <block type="controls_repeat"></block>
+					<block type="controls_whileUntil"></block>
+					<block type="controls_for"></block>
+					<block type="controls_forEach"></block>
+					<block type="controls_flow_statements"></block>
 			    </category>
+			    
 			    <category name="Math" colour="230">
 			    	<block type="math_number"></block>
 			    	<block type="math_arithmetic"></block>
+			    	<block type="math_single"></block>
+			    	<block type="math_trig"></block>
+			    	<block type="math_constant"></block>
+			    	<block type="math_number_property"></block>
+			    	<block type="math_change"></block>
+			    	<block type="math_round"></block>
+			    	<block type="math_on_list"></block>
+			    	<block type="math_modulo"></block>
+			    	<block type="math_constrain"></block>
+			    	<block type="math_random_int"></block>
+			    	<block type="math_random_float"></block>
 			    </category>
+			    
+			    <category name="Text" colour="20">
+			    	<block type="text"></block>
+			    	<block type="text_join"></block>
+			    	<block type="text_create_join_container"></block>
+			    	<block type="text_create_join_item"></block>
+			    	<block type="text_append"></block>
+			    	<block type="text_length"></block>
+			    	<block type="text_isEmpty"></block>
+			    	<block type="text_indexOf"></block>
+			    	<block type="text_charAt"></block>
+			    </category>
+			    
+			    
+			    <!-- skipped procedures.js and variables.js -->
+			    
 			    <category name="Output" colour="20">
 			    	<block type="text"></block>
 			    	<block type="text_print"></block>
