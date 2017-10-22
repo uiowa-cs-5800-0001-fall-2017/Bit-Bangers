@@ -1,13 +1,10 @@
 
-var game = new Phaser.Game(1768, 700, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update });
 
 function preload() {
 
     game.load.image('tinystar', 'img/star3.png');
-    game.load.image('title', 'img/title.png');
 
-
-    
 }
 
 var distance = 300;
@@ -15,22 +12,17 @@ var speed = 6;
 var star;
 var texture;
 
-var title;
-
 var max = 400;
 var xx = [];
 var yy = [];
 var zz = [];
 
 function create() {
-    
+
     star = game.make.sprite(0, 0, 'tinystar');
-    texture = game.add.renderTexture(1768, 700, 'texture');
+    texture = game.add.renderTexture(800, 600, 'texture');
 
     game.add.sprite(0, 0, texture);
-
-    title = game.make.sprite(1768, 700, 'title');
-    texture.renderXY(title, 0, 0);
 
     for (var i = 0; i < max; i++)
     {
@@ -38,12 +30,6 @@ function create() {
         yy[i] = Math.floor(Math.random() * 600) - 300;
         zz[i] = Math.floor(Math.random() * 1700) - 100;
     }
-    
-    // center & fill
-    Phaser.Canvas.setImageRenderingCrisp(game.canvas);
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 }
 
@@ -66,7 +52,5 @@ function update() {
 
         texture.renderXY(star, x, y);
     }
-    
-    texture.renderXY(title, 0, 0);
 
 }
