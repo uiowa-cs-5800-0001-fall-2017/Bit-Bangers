@@ -45,6 +45,13 @@
 	
 	<script type="text/javascript">
 	
+	function initialize() {
+		$('#myModal').on('shown.bs.modal', function (e) {
+		  /* workaround for Blockly to render within Bootstrap modal */
+		  window.dispatchEvent(new Event('resize'));
+		});
+	}
+	
 	function runCodeClicked() {
 		try {
 			var code = Blockly.JavaScript.workspaceToCode(workspace);
@@ -55,126 +62,148 @@
 		  alert(e);
 		}
 	}
+	
 	</script>
+	
+	<!-- custom blocks -->
 	
 	<script type="text/javascript" src="blockly-custom/blocks/game.js"></script>
 	<script type="text/javascript" src="blockly-custom/generators/game.js"></script>
 	
+	<!-- game engine -->
+	
+	<script type="text/javascript" src="phaser/build/phaser.min.js"></script>
+	
 </head>
-<body>
-	<img src="img/ghost.jpg" id="ghost" class="img-responsive center-block" />
+<body onload="initialize()">
 	
 	<div class="container">
 		<div class="row">
-			<h1>Blockly Test</h1>
-			<h2>By the Bit Banging Boiis</h2>
-			<h3>"OAUGHHHHH"   -- Bailey Miller, 2015</h3>
+			<button type="button" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">Show Code Terminal</button>
 		</div>
 		
 		<div class="row">
-			<!-- blockly div -->
-			<div id="blocklyDiv"></div>
-			
-			<!-- blockly toolbox -->
-			<xml id="toolbox" style="display: none">
-				
-				<!-- divided by category file name -->
-				
-				<category name="Game" colour="20">
-			    	<block type="move_character"></block>
-			    </category>
-				
-				<category name="Colors" colour="20">
-			    	<block type="colour_picker"></block>
-			    	<block type="colour_rgb"></block>
-			    	<block type="colour_blend"></block>
-			    </category>
-			    
-			    <category name="Lists" colour="20">
-			    	<block type="lists_create_empty"></block>
-			    	<block type="lists_repeat"></block>
-			    	<block type="lists_reverse"></block>
-			    	<block type="lists_isEmpty"></block>
-			    	<block type="lists_length"></block>
-			    	<block type="lists_create_with"></block>
-			    	<block type="lists_create_with_container"></block>
-			    	<block type="lists_create_with_item"></block>
-			    	<block type="lists_indexOf"></block>
-			    	<block type="lists_getIndex"></block>
-			    	<block type="lists_setIndex"></block>
-			    	<block type="lists_sort"></block>
-			    	<block type="lists_split"></block>
-			    </category>
-			    
-			 	<category name="Logic" colour="210">
-			 		<block type="logic_boolean"></block>
-			 		<block type="logic_compare"></block>
-			 		<block type="logic_operation"></block>
-			 		<block type="logic_negate"></block>
-			 		<block type="logic_null"></block>
-			 		<block type="logic_ternary"></block>
-			 		
-			 		<block type="controls_if"></block>
-			 		<block type="controls_ifelse"></block>
-			 		<block type="controls_if_if"></block>
-			 		<block type="controls_if_elseif"></block>
-			 		<block type="controls_if_else"></block>
-			 	</category>
-			 	
-			    <category name="Loops" colour="120">
-			    	<block type="controls_repeat_ext"></block>
-		    	    <block type="controls_repeat"></block>
-					<block type="controls_whileUntil"></block>
-					<block type="controls_for"></block>
-					<block type="controls_forEach"></block>
-					<block type="controls_flow_statements"></block>
-			    </category>
-			    
-			    <category name="Math" colour="230">
-			    	<block type="math_number"></block>
-			    	<block type="math_arithmetic"></block>
-			    	<block type="math_single"></block>
-			    	<block type="math_trig"></block>
-			    	<block type="math_constant"></block>
-			    	<block type="math_number_property"></block>
-			    	<block type="math_change"></block>
-			    	<block type="math_round"></block>
-			    	<block type="math_on_list"></block>
-			    	<block type="math_modulo"></block>
-			    	<block type="math_constrain"></block>
-			    	<block type="math_random_int"></block>
-			    	<block type="math_random_float"></block>
-			    </category>
-			    
-			    <category name="Text" colour="20">
-			    	<block type="text"></block>
-			    	<block type="text_join"></block>
-			    	<block type="text_create_join_container"></block>
-			    	<block type="text_create_join_item"></block>
-			    	<block type="text_append"></block>
-			    	<block type="text_length"></block>
-			    	<block type="text_isEmpty"></block>
-			    	<block type="text_indexOf"></block>
-			    	<block type="text_charAt"></block>
-			    </category>
-			    
-			    
-			    <!-- skipped procedures.js and variables.js -->
-			    
-			    <category name="Output" colour="20">
-			    	<block type="text"></block>
-			    	<block type="text_print"></block>
-			    </category>
-			    
-			    <category name="Variables" colour="330" custom="VARIABLE"></category>
-			    <category name="Functions" colour="290" custom="PROCEDURE"></category>
-			</xml>
+				<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="codeTerminalLabel" aria-hidden="true">
+			        <div class="modal-dialog" style="width: 60%; height: 80%;" id="thing2">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                    <h4 class="modal-title" id="codeTerminalLabel">Code Terminal</h4>
+			                </div>
+			                <div class="modal-body">
+			                	
+			                		<!-- blockly div -->
+			                		<div id="blocklyDiv"></div>
+			                		
+			                		<!-- blockly toolbox -->
+			                		<xml id="toolbox">
+			                			
+			                			<!-- divided by category file name -->
+			                			
+			                			<category name="Game" colour="20">
+			                		    	<block type="move_character"></block>
+			                		    </category>
+			                			
+			                			<category name="Colors" colour="20">
+			                		    	<block type="colour_picker"></block>
+			                		    	<block type="colour_rgb"></block>
+			                		    	<block type="colour_blend"></block>
+			                		    </category>
+			                		    
+			                		    <category name="Lists" colour="20">
+			                		    	<block type="lists_create_empty"></block>
+			                		    	<block type="lists_repeat"></block>
+			                		    	<block type="lists_reverse"></block>
+			                		    	<block type="lists_isEmpty"></block>
+			                		    	<block type="lists_length"></block>
+			                		    	<block type="lists_create_with"></block>
+			                		    	<block type="lists_create_with_container"></block>
+			                		    	<block type="lists_create_with_item"></block>
+			                		    	<block type="lists_indexOf"></block>
+			                		    	<block type="lists_getIndex"></block>
+			                		    	<block type="lists_setIndex"></block>
+			                		    	<block type="lists_sort"></block>
+			                		    	<block type="lists_split"></block>
+			                		    </category>
+			                		    
+			                		 	<category name="Logic" colour="210">
+			                		 		<block type="logic_boolean"></block>
+			                		 		<block type="logic_compare"></block>
+			                		 		<block type="logic_operation"></block>
+			                		 		<block type="logic_negate"></block>
+			                		 		<block type="logic_null"></block>
+			                		 		<block type="logic_ternary"></block>
+			                		 		
+			                		 		<block type="controls_if"></block>
+			                		 		<block type="controls_ifelse"></block>
+			                		 		<block type="controls_if_if"></block>
+			                		 		<block type="controls_if_elseif"></block>
+			                		 		<block type="controls_if_else"></block>
+			                		 	</category>
+			                		 	
+			                		    <category name="Loops" colour="120">
+			                		    	<block type="controls_repeat_ext"></block>
+			                	    	    <block type="controls_repeat"></block>
+			                				<block type="controls_whileUntil"></block>
+			                				<block type="controls_for"></block>
+			                				<block type="controls_forEach"></block>
+			                				<block type="controls_flow_statements"></block>
+			                		    </category>
+			                		    
+			                		    <category name="Math" colour="230">
+			                		    	<block type="math_number"></block>
+			                		    	<block type="math_arithmetic"></block>
+			                		    	<block type="math_single"></block>
+			                		    	<block type="math_trig"></block>
+			                		    	<block type="math_constant"></block>
+			                		    	<block type="math_number_property"></block>
+			                		    	<block type="math_change"></block>
+			                		    	<block type="math_round"></block>
+			                		    	<block type="math_on_list"></block>
+			                		    	<block type="math_modulo"></block>
+			                		    	<block type="math_constrain"></block>
+			                		    	<block type="math_random_int"></block>
+			                		    	<block type="math_random_float"></block>
+			                		    </category>
+			                		    
+			                		    <category name="Text" colour="20">
+			                		    	<block type="text"></block>
+			                		    	<block type="text_join"></block>
+			                		    	<block type="text_create_join_container"></block>
+			                		    	<block type="text_create_join_item"></block>
+			                		    	<block type="text_append"></block>
+			                		    	<block type="text_length"></block>
+			                		    	<block type="text_isEmpty"></block>
+			                		    	<block type="text_indexOf"></block>
+			                		    	<block type="text_charAt"></block>
+			                		    </category>
+			                		    
+			                		    
+			                		    <!-- skipped procedures.js and variables.js -->
+			                		    
+			                		    <category name="Output" colour="20">
+			                		    	<block type="text"></block>
+			                		    	<block type="text_print"></block>
+			                		    </category>
+			                		    
+			                		    <category name="Variables" colour="330" custom="VARIABLE"></category>
+			                		    <category name="Functions" colour="290" custom="PROCEDURE"></category>
+			                		</xml>
+			                	
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			                    <button type="button" class="btn btn-primary" onclick="runCodeClicked()">Run Code</button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
 		</div>
 		
 		<div class="row">
-			<div id="generate">
-				<button type="button" class="btn btn-primary" onclick="runCodeClicked()">Run Code</button>
-			</div>
+			<div id="game" class="overlay"></div>
+	      	<div id="orientation"></div>
 		</div>
 	
 	</div>
@@ -183,6 +212,10 @@
 	<script>
 	  var workspace = Blockly.inject('blocklyDiv', {toolbox: document.getElementById('toolbox')} );
 	</script>
+	
+	<!-- inject game engine into above div -->
+    <script type="text/javascript" src="game/game.js"></script>
+    
 </body>
 
 

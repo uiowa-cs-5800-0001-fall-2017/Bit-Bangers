@@ -3,5 +3,5 @@
     url = git@github.com:google/blockly.git
 
 [submodule "phaser"]
-    path = phaser-ce
+    path = phaser
     url = git@github.com:photonstorm/phaser-ce.git

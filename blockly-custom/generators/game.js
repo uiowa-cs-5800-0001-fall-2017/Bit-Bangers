@@ -15,7 +15,9 @@ Blockly.JavaScript['move_character'] = function(block) {
   var numBlocks = block.getFieldValue('NUM_BLOCKS');
   var direction = block.getFieldValue('DIRECTION');
   
-  var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");';
+  /* var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");'; */
+  
+  var code = "moveCharacter" + (direction == "LEFT" ? "Left" : "Right") + "(" + numBlocks + ");";
   
   /* return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; */
   return code;

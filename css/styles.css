@@ -6,3 +6,9 @@ div#blocklyDiv {
 	height: 60%;
 	width: 100%;
 }
+
+div.overlay {
+	position: absolute;
+	top: 100px;
+	left: 100px;
+}
