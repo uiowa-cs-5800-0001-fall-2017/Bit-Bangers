@@ -68,7 +68,8 @@ function create() {
   player.body.collideWorldBounds = true;
   player.animations.add('walkRight', [8, 9, 10, 12, 13, 14, 15], 10, true);
   player.animations.add('walkLeft', [16, 17, 18, 19, 20, 21, 22, 23], 10, true);
-  player.animations.add('jump', [6,7], true)
+  player.animations.add('jump', [6,7], 5, true);
+  player.animations.add('idle', [0,5], 5, true);
   player.goesRight = true;
 
   game.camera.follow(player);
@@ -83,7 +84,8 @@ function update() {
   game.physics.arcade.overlap(player, coins, coinOverlap);
 
   if (player.body.enable) {
-    // player.body.velocity.x = 0;
+    player.body.velocity.x = 0;
+   
     if (cursors.left.isDown) {
       player.body.velocity.x = -90;
       player.animations.play('walkLeft');
@@ -93,19 +95,17 @@ function update() {
       player.animations.play('walkRight');
       player.goesRight = true;
     } else {
-      player.animations.stop();
-      if (player.goesRight) player.frame = 0;
-      else player.frame = 0; //changed from 7
+      player.animations.play('idle');
+      //player.animations.stop();
+      //if (player.goesRight) player.frame = 0;
+      //else player.frame = 7;
     }
 
     if (cursors.up.isDown && player.body.onFloor()) {
       player.body.velocity.y = -190;
       player.animations.stop();
+      player.animations.play('idle');
     }
-    if(!player.body.onFloor()){
-      player.animations.play('jump');
-    }
-
     if (player.body.velocity.y != 0) {
        player.animations.play('jump');
       //if (player.goesRight) player.frame = 5;
