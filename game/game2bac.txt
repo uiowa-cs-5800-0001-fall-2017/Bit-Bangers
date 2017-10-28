@@ -23,7 +23,7 @@ var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
 function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
-  game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
+  game.load.spritesheet('mario', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/mario_wjlfy5.png', 16, 16);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
 
   game.load.tilemap('level', 'https://api.myjson.com/bins/3kk2g', null, Phaser.Tilemap.TILED_JSON);
@@ -66,9 +66,8 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.gravity.y = 370;
   player.body.collideWorldBounds = true;
-  player.animations.add('walkRight', [8, 9, 10, 12, 13, 14, 15], 10, true);
-  player.animations.add('walkLeft', [16, 17, 18, 19, 20, 21, 22, 23], 10, true);
-  player.animations.add('jump', [6,7], true)
+  player.animations.add('walkRight', [1, 2, 3], 10, true);
+  player.animations.add('walkLeft', [8, 9, 10], 10, true);
   player.goesRight = true;
 
   game.camera.follow(player);
@@ -88,28 +87,24 @@ function update() {
       player.body.velocity.x = -90;
       player.animations.play('walkLeft');
       player.goesRight = false;
-    } else if (cursors.down.isDown) {
+    } else if (cursors.right.isDown) {
       player.body.velocity.x = 90;
       player.animations.play('walkRight');
       player.goesRight = true;
     } else {
       player.animations.stop();
       if (player.goesRight) player.frame = 0;
-      else player.frame = 0; //changed from 7
+      else player.frame = 7;
     }
 
     if (cursors.up.isDown && player.body.onFloor()) {
       player.body.velocity.y = -190;
       player.animations.stop();
     }
-    if(!player.body.onFloor()){
-      player.animations.play('jump');
-    }
 
     if (player.body.velocity.y != 0) {
-       player.animations.play('jump');
-      //if (player.goesRight) player.frame = 5;
-      //else player.frame = 12;
+      if (player.goesRight) player.frame = 5;
+      else player.frame = 12;
     }
   }
 }
@@ -131,10 +126,10 @@ function goombaOverlap(player, goomba) {
     });
   } else {
     player.frame = 6;
-    player.body.enable = true;
+    player.body.enable = false;
     player.animations.stop();
     game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-      game.paused = false;
+      game.paused = true;
     });
   }
 }
