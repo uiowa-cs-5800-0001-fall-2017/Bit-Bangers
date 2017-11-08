@@ -41,7 +41,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       {
         "type": "field_number",
         "name": "NUM_BLOCKS",
-        "value": 1
+        "value": 10
       },
       {
         "type": "field_dropdown",

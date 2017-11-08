@@ -1,17 +1,30 @@
+/**
+ *  Function called when charactermoveRight block is used
+ *  Sets the varaiable blockNum and prevleft to check in update function
+ * */
 function moveCharacterLeft(numBlocks) {
-  player.body.velocity.x = -90 * numBlocks;
-  player.animations.play('walkLeft');
-  player.goesRight = false;
+    prevleft = this.player.body.x;
+    blockNum = numBlocks;
+    this.player.body.velocity.x = -40;
+    this.player.body.x -= 10;
 }
 
+/**
+ *  Function called when charactermoveRight block is used
+ *  Sets the varaiable blockNum and prevright to check in update function
+ * */
 function moveCharacterRight(numBlocks) {
-  player.body.velocity.x = 90 * numBlocks;
-  player.animations.play('walkRight');
-  player.goesRight = true;
+    prevright = this.player.body.x;
+    blockNum = numBlocks;
+    this.player.body.velocity.x = 40;
+    this.player.body.x += 10;
 }
+
+
 
 function stopCharacter() {
-  player.velocity.x = 0;
+  this.player.animations.play('idle');
+  
 }
 
 var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
@@ -19,7 +32,15 @@ var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
   create: create,
   update: update
 }, false, false);
-
+var prevright;
+var prevleft;
+var blockNum;
+/***********************
+ * It looks like tweens will stack if there are multiple on the same object.... 
+ * bring it down to one again, set a boolean on the call and use it to dermine state?
+ * 
+ * 
+ * *******************************/
 function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
@@ -66,7 +87,6 @@ function create() {
   player.animations.add('jump', [6,7], 5, true);
   player.animations.add('idle', [0,5], 5, true);
   player.goesRight = true;
-
   game.camera.follow(player);
 
   cursors = game.input.keyboard.createCursorKeys();
@@ -78,36 +98,57 @@ function update() {
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
 
-  if (player.body.enable) {
-    player.body.velocity.x = 0;
-   
+  if(player.body.enable){
+  
+  
+  /**
+   * Checks the robot's current pos, if not at goal keep walking
+   **/
+  if(player.body.x < prevright + 10*blockNum){
+    player.animations.play('walkRight');
+    player.goesRight = true;
+  }
+   /**
+   * Checks the robot's current pos, if not at goal keep walking
+   **/
+  else if(player.body.x > prevleft - 10*blockNum){
+    player.animations.play('walkLeft');
+    player.goesRight = false;
+  }
+  else if (player.body.velocity.y != 0) {
+       player.animations.play('jump');
+  }
+   /**
+   * if robot isn't walking, use idle and set prev pos. values to something that won't bug out
+   **/
+  else{
+      player.body.velocity.x = 0;
+      player.animations.play('idle');
+      prevright = -1000000000;
+      prevleft  =  1000000000;
+  }
+   /*
     if (cursors.left.isDown) {
-      player.body.velocity.x = -90;
-      player.animations.play('walkLeft');
-      player.goesRight = false;
-    } else if (cursors.down.isDown) {
-      player.body.velocity.x = 90;
-      player.animations.play('walkRight');
-      player.goesRight = true;
-    } else {
+      moveCharacterLeft(1);
+    } else if (cursors.right.isDown) {
+      moveCharacterRight(1);
+    } *//*else {
       player.animations.play('idle');
       //player.animations.stop();
       //if (player.goesRight) player.frame = 0;
       //else player.frame = 7;
-    }
+    }*/
 
-    if (cursors.up.isDown && player.body.onFloor()) {
-      player.body.velocity.y = -190;
+    /*if (cursors.up.isDown && player.body.onFloor()) {
+      player.body.velocity.y = -160;
       player.animations.stop();
       player.animations.play('idle');
-    }
-    if (player.body.velocity.y != 0) {
-       player.animations.play('jump');
-      //if (player.goesRight) player.frame = 5;
-      //else player.frame = 12;
-    }
+    }*/
+    
   }
 }
+
+
 /*
 function goombaOverlap(player, goomba) {
   $('#myModal').modal('show');
