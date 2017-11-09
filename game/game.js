@@ -20,6 +20,15 @@ function moveCharacterRight(numBlocks) {
     this.player.body.x += 10;
 }
 
+function characterJumpLeft(){
+   this.player.body.velocity.y = -160;
+   this.player.body.x += 10;
+}
+
+function characterJumpRight(){
+   this.player.body.velocity.y = -160;
+   this.player.body.x += 10;
+}
 
 
 function stopCharacter() {

@@ -56,5 +56,24 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "previousStatement": null,
     "nextStatement": null,
     "colour": 120
+  },
+   // Block for jumping.
+  {
+    "type": "character_jump",
+    "message0": "make character jump to the %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [ "right", "RIGHT" ],
+          [ "left", "LEFT" ]
+        ]
+      }
+    ],
+    "tooltip": "makes character jump",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)

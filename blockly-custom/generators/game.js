@@ -17,6 +17,18 @@ Blockly.JavaScript['move_character'] = function(block,player) {
  
   /* var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");'; */
   var code = "moveCharacter" + (direction == "LEFT" ? "Left" : "Right") + "(" + numBlocks + ");"
-   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
- // return code;
+   //return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
+  return code;
+};
+
+/* Blockly.JavaScript.move_character = function(block) { */
+Blockly.JavaScript['character_jump'] = function(block,player) {
+  // Make Characker jump in a direction
+  
+  var direction = block.getFieldValue('DIRECTION');
+ 
+ 
+  var code = "characterJump" + (direction == "LEFT" ? "Left" : "Right") + "();"
+   //return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
+  return code;
 };
