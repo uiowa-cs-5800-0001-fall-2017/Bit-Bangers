@@ -12,5 +12,7 @@ To test the code (you'll want to run a server locally otherwise JavaScript will 
 
 ...and then browse it at `http://localhost:8080`
 
-Let's pick up the slack boiis
--H
+Inspiration for the project name:
+
+https://www.youtube.com/watch?v=QUIrUOdzwmo
+
