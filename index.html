@@ -55,7 +55,8 @@
 	function runCodeClicked() {
 		try {
 			var code = Blockly.JavaScript.workspaceToCode(workspace);
-			alert("code: " + code);
+			/* debug */
+			// alert("code: " + code);
 			
 		 	eval(code);
 		} catch (e) {
@@ -195,7 +196,7 @@
 			                </div>
 			                <div class="modal-footer">
 			                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			                    <button type="button" class="btn btn-primary" onclick="runCodeClicked()">Run Code</button>
+			                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="runCodeClicked()">Run Code</button>
 			                </div>
 			            </div>
 			        </div>
