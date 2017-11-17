@@ -36,6 +36,12 @@ function stopCharacter() {
   
 }
 
+function destroySprite (sprite) {
+
+    sprite.destroy();
+
+}
+
 var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
   preload: preload,
   create: create,
@@ -56,6 +62,7 @@ function preload() {
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
+  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
 
   game.load.tilemap('level1', 'img/level1single.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
@@ -87,6 +94,11 @@ function create() {
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
 */
+  instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
+  instructwindow.inputEnabled = true;
+  instructwindow.input.useHandCursor = true;
+  instructwindow.events.onInputDown.add(destroySprite, this);
+  
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 370;
@@ -97,6 +109,8 @@ function create() {
   player.animations.add('idle', [0,5], 5, true);
   player.goesRight = true;
   game.camera.follow(player);
+  
+  
 
   cursors = game.input.keyboard.createCursorKeys();
 }
