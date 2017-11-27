@@ -56,8 +56,7 @@ Blockly.JavaScript['repeat'] = function(block) {
   }
   code += 'for (var ' + loopVar + ' = 0; ' +
       loopVar + ' < ' + endVar + '; ' +
-      loopVar + '++) {\n'+'(function ('+ loopVar + ') { setTimeout(function() {' + branch +  '},'  + loopVar + ' * 1200);\n})('
-      + loopVar + ');'+'}\n'
+      loopVar + '++) {\n'+ branch + '}\n'
       
   return code;
 };

@@ -43,7 +43,7 @@ function characterJumpRight() {
 function PlayerJump() {
   this.player.body.velocity.y = -200;
   setTimeout(function() {
-    this.player.body.velocity.x = 30;
+    this.player.body.velocity.x = 40;
     this.player.body.x += 10;
   }, 200);
 
@@ -127,7 +127,7 @@ function create() {
 
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
-  player.body.gravity.y = 370;
+  player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;
   player.animations.add('walkRight', [8, 9, 10, 12, 13, 14, 15], 10, true);
   player.animations.add('walkLeft', [16, 17, 18, 19, 20, 21, 22, 23], 10, true);
@@ -147,6 +147,7 @@ function update() {
   //game.physics.arcade.overlap(player, coins, coinOverlap);
 
  if (cursors.up.isDown) {
+   //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
         this.setTimeout(function() { 
@@ -154,16 +155,13 @@ function update() {
           {
             PlayerGoRight();
           }
-          else
+          else if((player_code[ind] == 'J'))
           {
             PlayerJump();
           }
-          
-        }, 1200 * ind);
+        }, 1300 * ind);
       })(i);
     }
-
-
   }
 
 
