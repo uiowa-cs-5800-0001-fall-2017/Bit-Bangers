@@ -3,10 +3,10 @@
  *  Sets the varaiable blockNum and prevleft to check in update function
  * */
 function moveCharacterLeft(numBlocks) {
-    prevleft = this.player.body.x;
-    blockNum = numBlocks;
-    this.player.body.velocity.x = -40;
-    this.player.body.x -= 10;
+  prevleft = this.player.body.x;
+  blockNum = numBlocks;
+  this.player.body.velocity.x = -40;
+  this.player.body.x -= 10;
 }
 
 /**
@@ -14,31 +14,54 @@ function moveCharacterLeft(numBlocks) {
  *  Sets the varaiable blockNum and prevright to check in update function
  * */
 function moveCharacterRight(numBlocks) {
-    prevright = this.player.body.x;
-    blockNum = numBlocks;
-    this.player.body.velocity.x = 40;
+  player_code.push('M');
+}
+
+function PlayerGoRight() {
+  prevright = this.player.body.x;
+  blockNum = 10;
+  this.player.body.velocity.x = 40;
+  this.player.body.x += 10;
+
+}
+
+
+
+function characterJumpLeft() {
+  this.player.body.velocity.y = -160;
+  setTimeout(function() {
+    this.player.body.velocity.x = -30;
     this.player.body.x += 10;
+  }, 100);
+
 }
 
-function characterJumpLeft(){
-   this.player.body.velocity.y = -160;
-   this.player.body.x += 10;
+function characterJumpRight() {
+  player_code.push('J');
 }
 
-function characterJumpRight(){
-   this.player.body.velocity.y = -160;
-   this.player.body.x += 10;
+function PlayerJump() {
+  this.player.body.velocity.y = -200;
+  setTimeout(function() {
+    this.player.body.velocity.x = 30;
+    this.player.body.x += 10;
+  }, 200);
+
 }
+
 
 
 function stopCharacter() {
-  this.player.animations.play('idle');
-  
+  this.player.body.velocity = 0;
+  player.animations.play('idle');
+  prevright = -1000000000;
+  prevleft = 1000000000;
+
 }
 
-function destroySprite (sprite) {
+function destroySprite(sprite) {
 
-    sprite.destroy();
+  sprite.destroy();
 
 }
 
@@ -50,12 +73,14 @@ var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
 var prevright;
 var prevleft;
 var blockNum;
-/***********************
- * It looks like tweens will stack if there are multiple on the same object.... 
- * bring it down to one again, set a boolean on the call and use it to dermine state?
- * 
- * 
- * *******************************/
+var prevPos = {
+  x: 0,
+  y: 0
+};
+var player_code = [];
+var cursors;
+
+
 function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
@@ -81,7 +106,7 @@ function create() {
   map.addTilesetImage('level1_tiles', 'tiles1');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
-  
+
   layer = map.createLayer('Tile Layer 1');
   layer.resizeWorld();
 
@@ -94,25 +119,25 @@ function create() {
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
 */
+
   instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
-  
+
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 370;
   player.body.collideWorldBounds = true;
   player.animations.add('walkRight', [8, 9, 10, 12, 13, 14, 15], 10, true);
   player.animations.add('walkLeft', [16, 17, 18, 19, 20, 21, 22, 23], 10, true);
-  player.animations.add('jump', [6,7], 5, true);
-  player.animations.add('idle', [0,5], 5, true);
+  player.animations.add('jump', [6, 7], 5, true);
+  player.animations.add('idle', [0, 5], 5, true);
   player.goesRight = true;
   game.camera.follow(player);
-  
-  
 
   cursors = game.input.keyboard.createCursorKeys();
+
 }
 
 function update() {
@@ -121,57 +146,107 @@ function update() {
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
 
-  if(player.body.enable){
-  
-  
-  /**
-   * Checks the robot's current pos, if not at goal keep walking
-   **/
-  if(player.body.x < prevright + 10*blockNum){
-    player.animations.play('walkRight');
-    player.goesRight = true;
+ if (cursors.up.isDown) {
+    for (var i = 0; i < player_code.length; i++) {
+      (function(ind) {
+        this.setTimeout(function() { 
+          if(player_code[ind] == 'M')
+          {
+            PlayerGoRight();
+          }
+          else
+          {
+            PlayerJump();
+          }
+          
+        }, 1200 * ind);
+      })(i);
+    }
+
+
   }
-   /**
-   * Checks the robot's current pos, if not at goal keep walking
-   **/
-  else if(player.body.x > prevleft - 10*blockNum){
-    player.animations.play('walkLeft');
-    player.goesRight = false;
-  }
-  else if (player.body.velocity.y != 0) {
-       player.animations.play('jump');
-  }
-   /**
-   * if robot isn't walking, use idle and set prev pos. values to something that won't bug out
-   **/
-  else{
+
+
+  if (player.body.enable) {
+
+
+    /**
+     * Checks the robot's current pos, if not at goal keep walking
+     **/
+    if (player.body.x < prevright + 10 * blockNum) {
+      player.animations.play('walkRight');
+      player.goesRight = true;
+    }
+    /**
+     * Checks the robot's current pos, if not at goal keep walking
+     **/
+    else if (player.body.x > prevleft - 10 * blockNum) {
+      player.animations.play('walkLeft');
+      player.goesRight = false;
+    }
+    else if (player.body.velocity.y != 0) {
+      player.animations.play('jump');
+      if (player.body.onFloor()) {
+        stopCharacter();
+      }
+    }
+    /**
+     * if robot isn't walking, use idle and set prev pos. values to something that won't bug out
+     **/
+    else {
       player.body.velocity.x = 0;
       player.animations.play('idle');
       prevright = -1000000000;
-      prevleft  =  1000000000;
-  }
-   /*
-    if (cursors.left.isDown) {
-      moveCharacterLeft(1);
-    } else if (cursors.right.isDown) {
-      moveCharacterRight(1);
-    } *//*else {
-      player.animations.play('idle');
-      //player.animations.stop();
-      //if (player.goesRight) player.frame = 0;
-      //else player.frame = 7;
-    }*/
+      prevleft = 1000000000;
+    }
+    /*
+     if (cursors.left.isDown) {
+       moveCharacterLeft(1);
+     } else if (cursors.right.isDown) {
+       moveCharacterRight(1);
+     } */
+    /*else {
+          player.animations.play('idle');
+          //player.animations.stop();
+          //if (player.goesRight) player.frame = 0;
+          //else player.frame = 7;
+        }*/
 
-    /*if (cursors.up.isDown && player.body.onFloor()) {
+  }
+ 
+
+  /* if (spaceKey.isDown) {
+    for (var i = 0; i < player_code.length; i++) {
+      player_code[i];
+    }
+
+
+
+
+    /*
+      player_code.reduce((p, fn) => {
+      return p.then(val => {
+          // you may customize what you pass to the next function in the chain
+          // and you may accumulate prior results in some other data structure here
+          return fn(val);
+        });
+      }, Promise.resolve()).then(result => {
+        // all done here
+      }).catch(err => {
+        // error here
+      });
+    }
+*/
+  /*if (cursors.up.isDown && player.body.onFloor()) {
       player.body.velocity.y = -160;
       player.animations.stop();
       player.animations.play('idle');
-    }*/
-    
+    }
+
   }
+*/
+
 }
-
-
 /*
 function goombaOverlap(player, goomba) {
   $('#myModal').modal('show');

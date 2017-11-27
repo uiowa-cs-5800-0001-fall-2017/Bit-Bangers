@@ -75,5 +75,29 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "previousStatement": null,
     "nextStatement": null,
     "colour": 120
+  },
+  // The 'controls_repeat_ext' block is preferred as it is more flexible.
+  {
+    "type": "repeat",
+    "message0": "%{BKY_CONTROLS_REPEAT_TITLE}",
+    "args0": [{
+      "type": "field_number",
+      "name": "TIMES",
+      "value": 10,
+      "min": 0,
+      "precision": 1
+    }],
+    "message1": "%{BKY_CONTROLS_REPEAT_INPUT_DO} %1",
+    "args1": [{
+      "type": "input_statement",
+      "name": "DO"
+    }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "%{BKY_LOOPS_HUE}",
+    "tooltip": "%{BKY_CONTROLS_REPEAT_TOOLTIP}",
+    "helpUrl": "%{BKY_CONTROLS_REPEAT_HELPURL}"
   }
+  
+  
 ]);  // END JSON EXTRACT (Do not delete this comment.)
