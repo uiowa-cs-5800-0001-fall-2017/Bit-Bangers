@@ -3,8 +3,13 @@
  *  Sets the varaiable blockNum and prevleft to check in update function
  * */
 function moveCharacterLeft(numBlocks) {
+  player_code.push("ML");
+}
+
+function PlayerGoLeft() {
+  prevright = -1000000000;
   prevleft = this.player.body.x;
-  blockNum = numBlocks;
+  blockNum = 10;
   this.player.body.velocity.x = -40;
   this.player.body.x -= 10;
 }
@@ -14,33 +19,37 @@ function moveCharacterLeft(numBlocks) {
  *  Sets the varaiable blockNum and prevright to check in update function
  * */
 function moveCharacterRight(numBlocks) {
-  player_code.push('M');
+  player_code.push('MR');
 }
 
 function PlayerGoRight() {
+  prevleft = 1000000000;
   prevright = this.player.body.x;
   blockNum = 10;
   this.player.body.velocity.x = 40;
   this.player.body.x += 10;
-
 }
 
 
 
 function characterJumpLeft() {
-  this.player.body.velocity.y = -160;
+  player_code.push('JL');
+}
+
+function PlayerJumpLeft() {
+  this.player.body.velocity.y = -200;
   setTimeout(function() {
-    this.player.body.velocity.x = -30;
-    this.player.body.x += 10;
-  }, 100);
+    this.player.body.velocity.x = -40;
+    this.player.body.x -= 10;
+  }, 200);
 
 }
 
 function characterJumpRight() {
-  player_code.push('J');
+  player_code.push('JR');
 }
 
-function PlayerJump() {
+function PlayerJumpRight() {
   this.player.body.velocity.y = -200;
   setTimeout(function() {
     this.player.body.velocity.x = 40;
@@ -140,6 +149,31 @@ function create() {
 
 }
 
+function GetAction(action){
+  switch(action){
+    case "M":
+      return PlayerGoRight();
+      break;
+    case "J":
+      return PlayerJump();
+      break;
+      
+  }
+}
+
+function PlayerGo(action) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+    if(action){
+      var move = GetAction(action)
+      resolve(move);
+    }else{
+      return null;
+    }
+  });
+}
+
 function update() {
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
@@ -151,15 +185,23 @@ function update() {
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
         this.setTimeout(function() { 
-          if(player_code[ind] == 'M')
+          if(player_code[ind] == 'MR')
           {
             PlayerGoRight();
           }
-          else if((player_code[ind] == 'J'))
+          else if((player_code[ind] == 'ML'))
           {
-            PlayerJump();
+            PlayerGoLeft();
           }
-        }, 1300 * ind);
+          else if((player_code[ind] == 'JR'))
+          {
+            PlayerJumpRight();
+          }
+          else if((player_code[ind] == 'JL'))
+          {
+            PlayerJumpLeft();
+          }
+        }, 1500 * ind);
       })(i);
     }
   }
