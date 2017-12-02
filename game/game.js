@@ -116,6 +116,7 @@ function create() {
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
 
+
   layer = map.createLayer('Tile Layer 1');
   layer.resizeWorld();
 
@@ -143,7 +144,7 @@ function create() {
   player.animations.add('jump', [6, 7], 5, true);
   player.animations.add('idle', [0, 5], 5, true);
   player.goesRight = true;
-  game.camera.follow(player);
+  game.camera.focusOn(player);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -205,6 +206,18 @@ function update() {
       })(i);
     }
   }
+  if (this.game.input.activePointer.isDown) {	
+    if (this.game.origDragPoint) {	
+      this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+      this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+    }
+    this.game.origDragPoint = this.game.input.activePointer.position.clone();
+  }
+  else {	
+    this.game.origDragPoint = null;
+  }
+
+
 
 
   if (player.body.enable) {
@@ -215,6 +228,7 @@ function update() {
      **/
     if (player.body.x < prevright + 10 * blockNum) {
       player.animations.play('walkRight');
+      game.camera.focusOn(player);
       player.goesRight = true;
     }
     /**
@@ -222,10 +236,12 @@ function update() {
      **/
     else if (player.body.x > prevleft - 10 * blockNum) {
       player.animations.play('walkLeft');
+      game.camera.focusOn(player);
       player.goesRight = false;
     }
     else if (player.body.velocity.y != 0) {
       player.animations.play('jump');
+      game.camera.focusOn(player);
       if (player.body.onFloor()) {
         stopCharacter();
       }
