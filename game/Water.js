@@ -99,7 +99,8 @@ function preload() {
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
 
   game.load.tilemap('Water_Map', 'img/Water_Map.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('wtiles', 'img/Water_Tiles.png'); //load tileset corresponding level1single.json tilemap
+  game.load.image('tiles1', 'img/Water_Tiles.png'); //load tileset corresponding level1single.json tilemap
+  game.load.image('tiles2', 'img/Water_Tiles.png'); //load tileset corresponding level1single.json tilemap
 }
 
 function create() {
@@ -112,12 +113,12 @@ function create() {
   game.stage.backgroundColor = '#363f44';
 
   map = game.add.tilemap('Water_Map');
-  map.addTilesetImage('Water_Tiles', 'wtiles');
+  map.addTilesetImage('Water_Tiles', 'tiles1');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
-
-  layer = map.createLayer('Tile Layer 1');
   layer = map.createLayer('Tile Layer 2');
+  layer = map.createLayer('Tile Layer 1');
+  
   layer.resizeWorld();
 
   goombas = game.add.group();

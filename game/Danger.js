@@ -92,14 +92,15 @@ var cursors;
 
 function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
-  //game.load.spritesheet('danger_tiles', 'img/danger.png', 16, 16);
+  //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
 
-  game.load.tilemap('danger_level', 'img/danger.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('danger_tiles', 'img/space-blks-1.034.png'); //load tileset corresponding danger.json tilemap
+  game.load.tilemap('Danger_Map', 'img/Danger_Map.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles1', 'img/danger.png'); //load tileset corresponding level1single.json tilemap
+  game.load.image('tiles2', 'img/danger.png'); //load tileset corresponding level1single.json tilemap
 }
 
 function create() {
@@ -111,12 +112,13 @@ function create() {
 
   game.stage.backgroundColor = '#363f44';
 
-  map = game.add.tilemap('danger_level');
-  map.addTilesetImage('danger', 'danger_tiles');
+  map = game.add.tilemap('Danger_Map');
+  map.addTilesetImage('Danger_Tiles', 'tiles1');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
-
+  layer = map.createLayer('Tile Layer 2');
   layer = map.createLayer('Tile Layer 1');
+  
   layer.resizeWorld();
 
   goombas = game.add.group();
