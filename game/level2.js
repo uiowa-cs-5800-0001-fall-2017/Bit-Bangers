@@ -74,6 +74,28 @@ function destroySprite(sprite) {
 
 }
 
+//MOVING PLATFORM FUNCTION
+CloudPlatform = function (game, x, y, key, group) {
+
+    if (typeof group === 'undefined') { group = game.world; }
+
+    Phaser.Sprite.call(this, game, x, y, key);
+
+    game.physics.arcade.enable(this);
+
+    this.anchor.x = 0.5;
+
+    this.body.customSeparateX = true;
+    this.body.customSeparateY = true;
+    this.body.allowGravity = false;
+    this.body.immovable = true;
+
+    this.playerLocked = false;
+
+    group.add(this);
+
+};
+
 var game = new Phaser.Game(256, 240, Phaser.CANVAS, '', {
   preload: preload,
   create: create,
@@ -96,11 +118,13 @@ function preload() {
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
-  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
+  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255,255);
+  game.load.spritesheet('platform', 'img/Platform Sprites/platform-big.png', 80, 47);
 
-  game.load.tilemap('Water_Map', 'img/Water_Map.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('tiles1', 'img/Water_Tiles.png'); //load tileset corresponding level1single.json tilemap
-  game.load.image('tiles2', 'img/Water_Tiles.png'); //load tileset corresponding level1single.json tilemap
+  game.load.tilemap('level2', 'img/level2.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles1', 'img/Industrial pack/tiles/industrial-tileset.png');
+  game.load.image('tiles2', 'img/Industrial pack/tiles/background-tiles.png');
+  
 }
 
 function create() {
@@ -112,13 +136,14 @@ function create() {
 
   game.stage.backgroundColor = '#363f44';
 
-  map = game.add.tilemap('Water_Map');
-  map.addTilesetImage('Water_Tiles', 'tiles1');
+  map = game.add.tilemap('level2');
+  map.addTilesetImage('industrial-tileset', 'tiles1');
+  map.addTilesetImage('background-tiles', 'tiles2');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
-  layer = map.createLayer('Tile Layer 2');
+
+
   layer = map.createLayer('Tile Layer 1');
-  
   layer.resizeWorld();
 
   goombas = game.add.group();
@@ -130,13 +155,21 @@ function create() {
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
 */
-
+//SET CLOUD1 MOVEMENTPAth
+/*
+  cloud1.addMotionPath([
+    { x: "+0", xSpeed: 2000, xEase: "Linear", y: "+300", ySpeed: 2000, yEase: "Sine.easeIn" },
+]);
+*/
   instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
+  
+  platform1 = game.add.sprite(900, game.world.height - 100, 'platform');
+  game.physics.arcade.enable(platform1);
 
-  player = game.add.sprite(16, game.world.height - 48, 'mario');
+  player = game.add.sprite(900, game.world.height - 400, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;
@@ -145,7 +178,7 @@ function create() {
   player.animations.add('jump', [6, 7], 5, true);
   player.animations.add('idle', [0, 5], 5, true);
   player.goesRight = true;
-  game.camera.follow(player);
+  game.camera.focusOn(player);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -181,7 +214,29 @@ function update() {
   game.physics.arcade.collide(goombas, layer);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
+  /*platform1.body.velocity.x = -50;
+  if(platform1.x === 900){
+    //platform1.x == 1000
+    platform1.body.velocity.x = 50;
+  }
+ */ 
+ if (platform1.x === 900)
+	{
+		//	Here you'll notice we are using a relative value for the tween.
+		//	You can specify a number as a string with either + or - at the start of it.
+		//	When the tween starts it will take the sprites current X value and add +300 to it.
 
+		game.add.tween(platform1).to( { x: '+100' }, 5000, Phaser.Easing.Linear.None, true);
+	}
+	else if (platform1.x === 1000)
+	{
+		game.add.tween(platform1).to( { x: '-100' }, 5000, Phaser.Easing.Linear.None, true);
+	}
+  /*
+  if{platform1.x >= 1100){
+    platform1.body.velocity.x = -50;
+  }*/
+  
  if (cursors.up.isDown) {
    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
@@ -207,6 +262,18 @@ function update() {
       })(i);
     }
   }
+  if (this.game.input.activePointer.isDown) {	
+    if (this.game.origDragPoint) {	
+      this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+      this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+    }
+    this.game.origDragPoint = this.game.input.activePointer.position.clone();
+  }
+  else {	
+    this.game.origDragPoint = null;
+  }
+
+
 
 
   if (player.body.enable) {
@@ -217,6 +284,7 @@ function update() {
      **/
     if (player.body.x < prevright + 10 * blockNum) {
       player.animations.play('walkRight');
+      game.camera.focusOn(player);
       player.goesRight = true;
     }
     /**
@@ -224,10 +292,12 @@ function update() {
      **/
     else if (player.body.x > prevleft - 10 * blockNum) {
       player.animations.play('walkLeft');
+      game.camera.focusOn(player);
       player.goesRight = false;
     }
     else if (player.body.velocity.y != 0) {
       player.animations.play('jump');
+      game.camera.focusOn(player);
       if (player.body.onFloor()) {
         stopCharacter();
       }
@@ -241,21 +311,30 @@ function update() {
       prevright = -1000000000;
       prevleft = 1000000000;
     }
-    /*
+  
+// ARROW CONTROLS FOR TESTING LEVELS STOP DELETING THIS KYLE!  
+/*
      if (cursors.left.isDown) {
-       moveCharacterLeft(1);
+       player.body.velocity.x = -100;
+       player.animations.play('walkLeft');
      } else if (cursors.right.isDown) {
-       moveCharacterRight(1);
-     } */
-    /*else {
+       player.body.velocity.x = 100;
+       player.animations.play('walkRight');
+     } 
+    else {
           player.animations.play('idle');
           //player.animations.stop();
           //if (player.goesRight) player.frame = 0;
           //else player.frame = 7;
-        }*/
+        }
+    if (cursors.down.isDown && player.body.onFloor()) {
+      player.body.velocity.y = -500;
+      player.animations.stop();
+      player.animations.play('idle');
+    }
+    */
 
-  }
- 
+
 
   /* if (spaceKey.isDown) {
     for (var i = 0; i < player_code.length; i++) {
@@ -279,15 +358,7 @@ function update() {
       });
     }
 */
-  /*if (cursors.up.isDown && player.body.onFloor()) {
-      player.body.velocity.y = -160;
-      player.animations.stop();
-      player.animations.play('idle');
-    }
-
   }
-*/
-
 }
 /*
 function goombaOverlap(player, goomba) {

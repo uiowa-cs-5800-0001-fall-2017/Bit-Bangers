@@ -47,8 +47,12 @@
 	
 	function initialize() {
 		$('#myModal').on('shown.bs.modal', function (e) {
-		  /* workaround for Blockly to render within Bootstrap modal */
-		  window.dispatchEvent(new Event('resize'));
+			/* workaround for Blockly to render within Bootstrap modal */
+			window.dispatchEvent(new Event('resize'));
+		  	
+		  	/* https://github.com/google/blockly/issues/56 */
+			/* fix text fields */
+		   $(document).off('focusin.modal');
 		});
 	}
 	
