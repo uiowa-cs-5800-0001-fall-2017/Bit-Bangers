@@ -94,6 +94,7 @@ function preload() {
   game.load.spritesheet('tiles', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/tiles_dctsfk.png', 16, 16);
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
+  game.load.spritesheet('goal', 'img/star.png',32,32);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
@@ -108,6 +109,7 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.camera.bounds = new Phaser.Rectangle(0, 0, 1230, 320);
 
   game.stage.backgroundColor = '#363f44';
 
@@ -134,6 +136,9 @@ function create() {
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
+  
+  goalstar = game.add.sprite(64, game.world.height - 64, 'goal');
+  game.physics.arcade.enable(goalstar);
 
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
@@ -178,8 +183,18 @@ function PlayerGo(action) {
 function update() {
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
+  game.camera.bounds = new Phaser.Rectangle(0, 48, 1230, 295);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
+  //game.physics.arcade.overlap(player, goalstar, goalHandler);
+  
+  function goalHandler(obj1, obj2) {
+    
+    alert("YOYOYOYOYOYOYO");
+    //this.state.start('game2');
+    return;
+
+  }
 
  if (cursors.up.isDown) {
    //alert(player_code)
