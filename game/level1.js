@@ -129,7 +129,6 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1200);
  // game.state.add('Water', Water);
   
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -156,7 +155,7 @@ function create() {
   goombas.setAll('body.gravity.y', 500);
 */
   //INSTRUCTION SPRITE
-  instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
+  instructwindow = game.add.sprite(24, game.world.height - 250, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
@@ -175,7 +174,7 @@ function create() {
   gate.body.immovable = true;
   
   //PLAYER SPRITE
-  player = game.add.sprite(16, game.world.height - 48, 'mario');
+  player = game.add.sprite(32, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;
@@ -215,7 +214,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
@@ -225,8 +224,12 @@ function update() {
   
   
   function goalOverlap(player, goalstar){
-    alert("yep");
-    game.state.start('Water');
+    game.destroy();
+    
+    $.getScript('game/level2.js', function()
+    {
+        // script is now loaded and executed
+    });
   }
    
  
