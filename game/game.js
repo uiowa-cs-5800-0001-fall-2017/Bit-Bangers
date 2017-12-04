@@ -237,7 +237,6 @@ function update() {
    // push on end of movement function onto end of character array
    //move gate
     endOfArray();
-   alert(player_code);
    for (var j = 0; j < gate_code.length; j++){
      (function(n) {
         this.setTimeout(function() { 

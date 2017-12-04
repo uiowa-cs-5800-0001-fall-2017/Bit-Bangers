@@ -58,13 +58,16 @@ function PlayerJumpRight() {
 
 }
 
-
+function endOfArray() { 
+ player_code.push("END"); 
+}
 
 function stopCharacter() {
-  this.player.body.velocity = 0;
-  player.animations.play('idle');
+  this.player.body.velocity.x = 0;
+  this.player.animations.play('idle');
   prevright = -1000000000;
   prevleft = 1000000000;
+  player_code.length = 0;
 
 }
 
