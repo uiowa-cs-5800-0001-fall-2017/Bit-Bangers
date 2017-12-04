@@ -110,9 +110,9 @@ function preload() {
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
-  game.load.spritesheet('goal', 'img/star.png', 32, 32);
+  game.load.spritesheet('goal', 'img/robot full.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
-  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
+  game.load.spritesheet('instruct', 'img/level1_Instructions',255,255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
   game.load.tilemap('level1', 'img/level1single.json', null, Phaser.Tilemap.TILED_JSON);
@@ -222,7 +222,6 @@ function update() {
   
   function goalOverlap(player, goalstar){
     alert("yep");
-    game.state.start('Water');
   }
    
  
