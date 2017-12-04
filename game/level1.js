@@ -57,12 +57,16 @@ function PlayerJumpRight() {
   }, 200);
 
 }
+function endOfArray() { 
+ player_code.push("END"); 
+}
 
 function stopCharacter() {
-  this.player.body.velocity = 0;
-  player.animations.play('idle');
+  this.player.body.velocity.x = 0;
+  this.player.animations.play('idle');
   prevright = -1000000000;
   prevleft = 1000000000;
+  player_code.length = 0;
 
 }
 
@@ -114,6 +118,7 @@ function preload() {
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/movement_instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
+  game.load.spritesheet('aleksey', 'img/aleksey.png', 18, 29);
 
   game.load.tilemap('level1', 'img/level1singletileset.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
@@ -180,6 +185,14 @@ function create() {
   player.animations.add('idle', [0, 5], 5, true);
   player.goesRight = true;
   game.camera.focusOn(player);
+  
+    
+  //ALEKSEY
+  player2 = game.add.sprite(64, game.world.height - 48, 'aleksey');
+  game.physics.arcade.enable(player2);
+  player2.body.gravity.y = 400;
+  player2.body.collideWorldBounds = true;
+  player2.animations.add('idle2', [0, 1], 5, true);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -190,10 +203,14 @@ function update() {
   game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
-   game.physics.arcade.collide(player, gate);
+  game.physics.arcade.collide(player, gate);
+  game.physics.arcade.collide(player2, layer);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
   game.physics.arcade.overlap(player, goalstar, goalOverlap);
+  
+  
+  player2.animations.play('idle2');
   
   
   function goalOverlap(player, goalstar){
@@ -208,7 +225,7 @@ function update() {
  
  if (key1.isDown) {
    //move gate
-
+   endOfArray();
    for (var j = 0; j < gate_code.length; j++){
      (function(n) {
         this.setTimeout(function() { 
