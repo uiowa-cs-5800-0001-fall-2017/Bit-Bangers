@@ -58,8 +58,6 @@ function PlayerJumpRight() {
 
 }
 
-
-
 function stopCharacter() {
   this.player.body.velocity = 0;
   player.animations.play('idle');
@@ -67,6 +65,21 @@ function stopCharacter() {
   prevleft = 1000000000;
 
 }
+
+function moveGateUp(numBlocks){
+  gate_code.push('U');
+}
+
+function moveGateDown(numBlocks){
+  gate_code.push('D');
+}
+
+function GateUP(){
+  gate.body.enable = false;
+  gate.animations.play('open');
+ 
+}
+
 
 function destroySprite(sprite) {
 
@@ -89,6 +102,7 @@ var prevPos = {
 var player_code = [];
 var cursors;
 var key1;
+var gate_code = [];
 
 
 function preload() {
@@ -99,6 +113,7 @@ function preload() {
   game.load.spritesheet('goal', 'img/star.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
+  game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
   game.load.tilemap('level1', 'img/level1single.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
@@ -136,15 +151,26 @@ function create() {
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
 */
-
+  //INSTRUCTION SPRITE
   instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
   
-  goalstar = game.add.sprite(64, game.world.height - 64, 'goal');
+  //GOAL SPRITE
+  goalstar = game.add.sprite(112, game.world.height - 64, 'goal');
   game.physics.arcade.enable(goalstar);
-
+  
+  //GATE SPRITE
+  gate = game.add.sprite(64, game.world.height - 84, 'gate');
+  game.physics.arcade.enable(gate);
+  gate.body.collideWorldBounds = true;
+  gate.animations.add('closed', [0, 1], 10, true);
+  gate.animations.add('open', [2, 5], 2, true);
+  gate.animations.add('destroyed', [6], 0, true);
+  gate.body.immovable = true;
+  
+  //PLAYER SPRITE
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
@@ -168,7 +194,6 @@ function GetAction(action){
     case "J":
       return PlayerJump();
       break;
-      
   }
 }
 
@@ -189,17 +214,31 @@ function update() {
   game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
+   game.physics.arcade.collide(player, gate);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
   game.physics.arcade.overlap(player, goalstar, goalOverlap);
+  
   
   function goalOverlap(player, goalstar){
     alert("yep");
     game.state.start('Water');
   }
    
-
+ 
  if (key1.isDown) {
+   //move gate
+   for (var j = 0; j < gate_code.length; j++){
+     (function(n) {
+        this.setTimeout(function() { 
+          if(gate_code[n] == 'U')
+          {
+            GateUP();
+          }
+        }, 1500 * n);
+      })(j);
+   }
+   
    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
@@ -253,13 +292,13 @@ function update() {
   else {	
     this.game.origDragPoint = null;
   }
-
-
-
-
+  if (gate.body.enable) {
+    gate.animations.play('closed');
+    }
+  else{
+    gate.animations.play('destoyed');
+     }
   if (player.body.enable) {
-
-
     /**
      * Checks the robot's current pos, if not at goal keep walking
      **/

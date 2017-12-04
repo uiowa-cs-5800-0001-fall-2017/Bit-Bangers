@@ -33,6 +33,44 @@ Blockly.JavaScript['character_jump'] = function(block,player) {
   return code;
 };
 
+/* Blockly.JavaScript.move_gate = function(block) { */
+Blockly.JavaScript['move_gate'] = function(block,gate) {
+  // Move character
+  
+  var numBlocks = block.getFieldValue('NUM_BLOCKS');
+  var direction = block.getFieldValue('DIRECTION');
+ 
+  /* var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");'; */
+  var code = "\nmoveGate" + (direction == "DOWN" ? "Down" : "Up") + "(" + numBlocks + ");\n"
+   //return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
+  return code;
+};
+/* Blockly.JavaScript.move_platform_vertical = function(block) { */
+Blockly.JavaScript['move_platform_vertical'] = function(block,platform) {
+  // Move character
+  
+  var numBlocks = block.getFieldValue('NUM_BLOCKS');
+  var direction = block.getFieldValue('DIRECTION');
+ 
+  /* var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");'; */
+  var code = "\nmovePlatformVertical" + (direction == "DOWN" ? "Down" : "Up" ) + "(" + numBlocks + ");\n"
+   //return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
+  return code;
+};
+
+/* Blockly.JavaScript.move_platform_horizontal = function(block) { */
+Blockly.JavaScript['move_platform_horizontal'] = function(block,platform) {
+  // Move character
+  
+  var numBlocks = block.getFieldValue('NUM_BLOCKS');
+  var direction = block.getFieldValue('DIRECTION');
+ 
+  /* var code = 'alert("should move character ' + numBlocks + ' blocks to the ' + direction + '");'; */
+  var code = "\nmovePlatformHorizontal" + (direction == "LEFT" ? "Left" : "Right" ) + "(" + numBlocks + ");\n"
+   //return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL]; 
+  return code;
+};
+
 Blockly.JavaScript['repeat'] = function(block) {
   // Repeat n times.
   if (block.getField('TIMES')) {
