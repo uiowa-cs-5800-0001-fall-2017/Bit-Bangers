@@ -125,7 +125,6 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1200);
  // game.state.add('Water', Water);
   
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -171,7 +170,7 @@ function create() {
   gate.body.immovable = true;
   
   //PLAYER SPRITE
-  player = game.add.sprite(200, game.world.height - 48, 'mario');
+  player = game.add.sprite(32, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;
@@ -211,7 +210,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
