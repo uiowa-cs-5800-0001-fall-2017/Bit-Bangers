@@ -199,29 +199,6 @@ function create() {
 
 }
 
-function GetAction(action){
-  switch(action){
-    case "M":
-      return PlayerGoRight();
-      break;
-    case "J":
-      return PlayerJump();
-      break;
-  }
-}
-
-function PlayerGo(action) {
-  // Return a new promise.
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    if(action){
-      var move = GetAction(action)
-      resolve(move);
-    }else{
-      return null;
-    }
-  });
-}
 
 function update() {
   game.camera.bounds = new Phaser.Rectangle(0,0, 1600, 320);
@@ -245,6 +222,7 @@ function update() {
  
  if (key1.isDown) {
    //move gate
+   endOfArray();
    for (var j = 0; j < gate_code.length; j++){
      (function(n) {
         this.setTimeout(function() { 

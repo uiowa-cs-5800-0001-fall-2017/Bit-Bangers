@@ -153,30 +153,6 @@ function create() {
 
 }
 
-function GetAction(action){
-  switch(action){
-    case "M":
-      return PlayerGoRight();
-      break;
-    case "J":
-      return PlayerJump();
-      break;
-      
-  }
-}
-
-function PlayerGo(action) {
-  // Return a new promise.
-  return new Promise(function(resolve, reject) {
-    // Do the usual XHR stuff
-    if(action){
-      var move = GetAction(action)
-      resolve(move);
-    }else{
-      return null;
-    }
-  });
-}
 
 function update() {
   game.physics.arcade.collide(player, layer);

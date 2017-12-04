@@ -58,13 +58,19 @@ function PlayerJumpRight() {
 
 }
 
+function endOfArray() { 
+ player_code.push("END"); 
+}
+
 function stopCharacter() {
-  this.player.body.velocity = 0;
-  player.animations.play('idle');
+  this.player.body.velocity.x = 0;
+  this.player.animations.play('idle');
   prevright = -1000000000;
   prevleft = 1000000000;
+  player_code.length = 0;
 
 }
+
 
 function moveGateUp(numBlocks){
   gate_code.push('U');
@@ -228,10 +234,7 @@ function update() {
  
  if (key1.isDown) {
    //move gate
-<<<<<<< HEAD
-    endOfArray();
-=======
->>>>>>> f65f23345d073f85353555dbd71af17447d889a7
+   endOfArray();
    for (var j = 0; j < gate_code.length; j++){
      (function(n) {
         this.setTimeout(function() { 
@@ -335,73 +338,6 @@ function update() {
       prevright = -1000000000;
       prevleft = 1000000000;
     }
-    /*
-     if (cursors.left.isDown) {
-       moveCharacterLeft(1);
-     } else if (cursors.right.isDown) {
-       moveCharacterRight(1);
-     } */
-    /*else {
-          player.animations.play('idle');
-          //player.animations.stop();
-          //if (player.goesRight) player.frame = 0;
-          //else player.frame = 7;
-        }*/
-    
   }
- 
-
-  /* if (spaceKey.isDown) {
-    for (var i = 0; i < player_code.length; i++) {
-      player_code[i];
-    }
-
-
-
-
-    /*
-      player_code.reduce((p, fn) => {
-      return p.then(val => {
-          // you may customize what you pass to the next function in the chain
-          // and you may accumulate prior results in some other data structure here
-          return fn(val);
-        });
-      }, Promise.resolve()).then(result => {
-        // all done here
-      }).catch(err => {
-        // error here
-      });
-    }
-*/
-  /*if (cursors.up.isDown && player.body.onFloor()) {
-      player.body.velocity.y = -160;
-      player.animations.stop();
-      player.animations.play('idle');
-    }
-
-  }
-*/
 
 }
-/*
-function goombaOverlap(player, goomba) {
-  $('#myModal').modal('show');
-  
-  if (player.body.touching.down) {
-    goomba.animations.stop();
-    goomba.frame = 2;
-    goomba.body.enable = false;
-    player.body.velocity.y = -80;
-    game.time.events.add(Phaser.Timer.SECOND, function() {
-      goomba.kill();
-    });
-  } else {
-    player.frame = 6;
-    player.body.enable = true;
-    player.animations.stop();
-    game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-      game.paused = false;
-    });
-  }
-}
-*/
