@@ -186,7 +186,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
