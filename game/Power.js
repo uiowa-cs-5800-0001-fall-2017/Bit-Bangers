@@ -161,7 +161,7 @@ function create() {
   instructwindow.events.onInputDown.add(destroySprite, this);
   
   //GOAL SPRITE
-  goalstar = game.add.sprite(1000, game.world.height - 120, 'goal');
+  goalstar = game.add.sprite(1500, game.world.height - 40, 'goal');
   game.physics.arcade.enable(goalstar);
   
   //GATE SPRITE
