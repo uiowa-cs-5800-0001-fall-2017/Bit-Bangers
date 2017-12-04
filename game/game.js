@@ -88,6 +88,7 @@ var prevPos = {
 };
 var player_code = [];
 var cursors;
+var key1;
 
 
 function preload() {
@@ -95,6 +96,7 @@ function preload() {
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
+  game.load.spritesheet('goal', 'img/star.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
 
@@ -108,6 +110,11 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1200);
+ // game.state.add('Water', Water);
+  
+  key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  //key1.onDown.add(executeBlocks, this);
 
   game.stage.backgroundColor = '#363f44';
 
@@ -134,6 +141,9 @@ function create() {
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
+  
+  goalstar = game.add.sprite(64, game.world.height - 64, 'goal');
+  game.physics.arcade.enable(goalstar);
 
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
@@ -176,12 +186,20 @@ function PlayerGo(action) {
 }
 
 function update() {
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
+  game.physics.arcade.overlap(player, goalstar, goalOverlap);
+  
+  function goalOverlap(player, goalstar){
+    alert("yep");
+    game.state.start('Water');
+  }
+   
 
- if (cursors.up.isDown) {
+ if (key1.isDown) {
    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
@@ -206,6 +224,25 @@ function update() {
       })(i);
     }
   }
+  
+  if (cursors.up.isDown)
+  {
+      game.camera.y -= 4;
+  }
+  else if (cursors.down.isDown)
+  {
+      game.camera.y += 4;
+  }
+
+  if (cursors.left.isDown)
+  {
+      game.camera.x -= 4;
+  }
+  else if (cursors.right.isDown)
+  {
+      game.camera.x += 4;
+  }
+
   if (this.game.input.activePointer.isDown) {	
     if (this.game.origDragPoint) {	
       this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
@@ -267,7 +304,7 @@ function update() {
           //if (player.goesRight) player.frame = 0;
           //else player.frame = 7;
         }*/
-
+    
   }
  
 
