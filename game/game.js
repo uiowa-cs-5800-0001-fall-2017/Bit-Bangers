@@ -114,9 +114,9 @@ function preload() {
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
-  game.load.spritesheet('goal', 'img/star.png', 32, 32);
+  game.load.spritesheet('goal', 'img/robot full.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
-  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
+  game.load.spritesheet('instruct', 'img/level1_Instructions',255,255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
   game.load.tilemap('Power_Map', 'img/Power_Map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -218,7 +218,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1600, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
@@ -229,7 +229,6 @@ function update() {
   
   function goalOverlap(player, goalstar){
     alert("yep");
-    game.state.start('Water');
   }
    
  
