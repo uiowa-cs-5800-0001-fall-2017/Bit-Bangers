@@ -118,18 +118,12 @@ function create() {
   map.createLayer('background');
   layer = map.createLayer('Tile Layer 2');
   layer = map.createLayer('Tile Layer 1');
-  
+
   layer.resizeWorld();
 
   goombas = game.add.group();
   goombas.enableBody = true;
-  //map.createFromTiles(1, null, 'goomba', 'stuff', goombas);
-  /*goombas.callAll('animations.add', 'animations', 'walk', [0, 1], 2, true);
-  goombas.callAll('animations.play', 'animations', 'walk');
-  goombas.setAll('body.bounce.x', 1);
-  goombas.setAll('body.velocity.x', -20);
-  goombas.setAll('body.gravity.y', 500);
-*/
+ 
 
   instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
   instructwindow.inputEnabled = true;
@@ -151,15 +145,15 @@ function create() {
 
 }
 
-function GetAction(action){
-  switch(action){
+function GetAction(action) {
+  switch (action) {
     case "M":
       return PlayerGoRight();
       break;
     case "J":
       return PlayerJump();
       break;
-      
+
   }
 }
 
@@ -167,10 +161,11 @@ function PlayerGo(action) {
   // Return a new promise.
   return new Promise(function(resolve, reject) {
     // Do the usual XHR stuff
-    if(action){
+    if (action) {
       var move = GetAction(action)
       resolve(move);
-    }else{
+    }
+    else {
       return null;
     }
   });
@@ -182,25 +177,21 @@ function update() {
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
 
- if (cursors.up.isDown) {
-   //alert(player_code)
+  if (cursors.up.isDown) {
+    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
-        this.setTimeout(function() { 
-          if(player_code[ind] == 'MR')
-          {
+        this.setTimeout(function() {
+          if (player_code[ind] == 'MR') {
             PlayerGoRight();
           }
-          else if((player_code[ind] == 'ML'))
-          {
+          else if ((player_code[ind] == 'ML')) {
             PlayerGoLeft();
           }
-          else if((player_code[ind] == 'JR'))
-          {
+          else if ((player_code[ind] == 'JR')) {
             PlayerJumpRight();
           }
-          else if((player_code[ind] == 'JL'))
-          {
+          else if ((player_code[ind] == 'JL')) {
             PlayerJumpLeft();
           }
         }, 1500 * ind);
@@ -241,73 +232,7 @@ function update() {
       prevright = -1000000000;
       prevleft = 1000000000;
     }
-    /*
-     if (cursors.left.isDown) {
-       moveCharacterLeft(1);
-     } else if (cursors.right.isDown) {
-       moveCharacterRight(1);
-     } */
-    /*else {
-          player.animations.play('idle');
-          //player.animations.stop();
-          //if (player.goesRight) player.frame = 0;
-          //else player.frame = 7;
-        }*/
 
   }
- 
-
-  /* if (spaceKey.isDown) {
-    for (var i = 0; i < player_code.length; i++) {
-      player_code[i];
-    }
-
-
-
-
-    /*
-      player_code.reduce((p, fn) => {
-      return p.then(val => {
-          // you may customize what you pass to the next function in the chain
-          // and you may accumulate prior results in some other data structure here
-          return fn(val);
-        });
-      }, Promise.resolve()).then(result => {
-        // all done here
-      }).catch(err => {
-        // error here
-      });
-    }
-*/
-  /*if (cursors.up.isDown && player.body.onFloor()) {
-      player.body.velocity.y = -160;
-      player.animations.stop();
-      player.animations.play('idle');
-    }
-
-  }
-*/
 
 }
-/*
-function goombaOverlap(player, goomba) {
-  $('#myModal').modal('show');
-  
-  if (player.body.touching.down) {
-    goomba.animations.stop();
-    goomba.frame = 2;
-    goomba.body.enable = false;
-    player.body.velocity.y = -80;
-    game.time.events.add(Phaser.Timer.SECOND, function() {
-      goomba.kill();
-    });
-  } else {
-    player.frame = 6;
-    player.body.enable = true;
-    player.animations.stop();
-    game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-      game.paused = false;
-    });
-  }
-}
-*/
