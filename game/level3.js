@@ -241,8 +241,12 @@ function update() {
   
   
   function goalOverlap(player, goalstar){
-    alert("yep");
-    game.state.start('Water');
+    game.destroy();
+    
+    $.getScript('game/level4.js', function()
+    {
+        // script is now loaded and executed
+    });
   }
   
  
