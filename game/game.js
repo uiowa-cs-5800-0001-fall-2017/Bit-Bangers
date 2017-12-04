@@ -115,8 +115,9 @@ function preload() {
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
-  game.load.tilemap('level1', 'img/level1singletileset.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
+  game.load.tilemap('Power_Map', 'img/Power_Map.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles1', 'img/Power.png'); //load tileset corresponding level1single.json tilemap
+  game.load.image('tiles2', 'img/Power.png'); //load tileset corresponding level1single.json tilemap
 }
 
 function create() {
@@ -125,7 +126,7 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1200);
+  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1600);
  // game.state.add('Water', Water);
   
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -133,10 +134,12 @@ function create() {
 
   game.stage.backgroundColor = '#363f44';
 
-  map = game.add.tilemap('level1');
-  map.addTilesetImage('level1_tiles', 'tiles1');
+  map = game.add.tilemap('Power_Map');
+  map.addTilesetImage('Power_Tiles', 'tiles1');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
+  layer = map.createLayer('Tile Layer 2');
+  layer = map.createLayer('Tile Layer 1');
 
 
   layer = map.createLayer('Tile Layer 1');
@@ -162,7 +165,7 @@ function create() {
   game.physics.arcade.enable(goalstar);
   
   //GATE SPRITE
-  gate = game.add.sprite(1300, game.world.height - 84, 'gate');
+  gate = game.add.sprite(100, game.world.height - 70, 'gate');
   game.physics.arcade.enable(gate);
   gate.body.collideWorldBounds = true;
   gate.animations.add('closed', [0, 1], 10, true);
@@ -211,7 +214,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1600, 295);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
