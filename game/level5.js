@@ -160,7 +160,32 @@ function update() {
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
 
- if (cursors.up.isDown) {
+  
+ if (key1.isDown) {
+   //move gate
+   endOfArray();
+   for (var j = 0; j < gate_code.length; j++){
+     (function(n) {
+        this.setTimeout(function() { 
+          if(gate_code[n] == 'U')
+          {
+            GateUP();
+          }
+        }, 1500 * n);
+      })(j);
+   }
+   //move platform1
+     for (var j = 0; j < platform1_code.length; j++){
+     (function(n) {
+        this.setTimeout(function() { 
+          if(platform1_code[n] == 'U')
+          {
+            PlatformUP();
+          }
+        }, 1500 * n);
+      })(j);
+   }
+  
    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
@@ -185,7 +210,47 @@ function update() {
       })(i);
     }
   }
+  //stop platforms
+  if(platform1.y <= game.world.height - 200){
+      platform1.body.velocity.y = 0;
+      platform1_code.length = 0
+    }
+  
+  //camera controls  
+  if (cursors.up.isDown)
+  {
+      game.camera.y -= 4;
+  }
+  else if (cursors.down.isDown)
+  {
+      game.camera.y += 4;
+  }
 
+  if (cursors.left.isDown)
+  {
+      game.camera.x -= 4;
+  }
+  else if (cursors.right.isDown)
+  {
+      game.camera.x += 4;
+  }
+
+  if (this.game.input.activePointer.isDown) {	
+    if (this.game.origDragPoint) {	
+      this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+      this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+    }
+    this.game.origDragPoint = this.game.input.activePointer.position.clone();
+  }
+  else {	
+    this.game.origDragPoint = null;
+  }
+  if (gate.body.enable) {
+    gate.animations.play('closed');
+    }
+  else{
+    gate.animations.play('destoyed');
+     }
 
   if (player.body.enable) {
 
