@@ -57,6 +57,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "nextStatement": null,
     "colour": 120
   },
+  
    // Block for jumping.
   {
     "type": "character_jump",
@@ -72,6 +73,79 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "tooltip": "makes character jump",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120
+  },
+  //Block for moving gate
+  {
+    "type": "move_gate",
+    "message0": "move gate %1 blocks %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUM_BLOCKS",
+        "value": 1
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [ "up", "UP" ],
+          [ "down", "DOWN" ]
+        ]
+      }
+    ],
+    "tooltip": "moves gate",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120
+  },
+  //Block for moving platform horizontally
+  {
+    "type": "move_platform_horizontal",
+    "message0": "move platform %1 blocks %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUM_BLOCKS",
+        "value": 10
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [ "right", "RIGHT" ],
+          [ "left", "LEFT" ],
+          
+        ]
+      }
+    ],
+    "tooltip": "moves platform horizontally",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120
+  },
+  //Block for moving platform vertically
+  {
+    "type": "move_platform_vertical",
+    "message0": "move platform %1 blocks %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUM_BLOCKS",
+        "value": 10
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [ "up", "UP" ],
+          [ "down", "DOWN" ]
+        ]
+      }
+    ],
+    "tooltip": "moves platform vertically",
     "previousStatement": null,
     "nextStatement": null,
     "colour": 120
