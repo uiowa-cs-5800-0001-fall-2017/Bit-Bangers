@@ -115,7 +115,7 @@ function preload() {
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
-  game.load.tilemap('level1', 'img/level1single.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.tilemap('level1', 'img/level1singletileset.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
 }
 
