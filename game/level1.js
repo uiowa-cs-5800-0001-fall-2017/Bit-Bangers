@@ -152,7 +152,7 @@ function create() {
   goombas.setAll('body.gravity.y', 500);
 */
   //INSTRUCTION SPRITE
-  instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
+  instructwindow = game.add.sprite(24, game.world.height - 250, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
@@ -171,7 +171,7 @@ function create() {
   gate.body.immovable = true;
   
   //PLAYER SPRITE
-  player = game.add.sprite(16, game.world.height - 48, 'mario');
+  player = game.add.sprite(200, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;

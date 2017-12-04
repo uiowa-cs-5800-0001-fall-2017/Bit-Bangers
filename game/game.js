@@ -57,16 +57,12 @@ function PlayerJumpRight() {
   }, 200);
 
 }
-function endOfArray() { 
- player_code.push("END"); 
-}
 
 function stopCharacter() {
-  this.player.body.velocity.x = 0;
-  this.player.animations.play('idle');
+  this.player.body.velocity = 0;
+  player.animations.play('idle');
   prevright = -1000000000;
   prevleft = 1000000000;
-  player_code.length = 0;
 
 }
 
@@ -114,14 +110,13 @@ function preload() {
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
-  game.load.spritesheet('goal', 'img/robot full.png', 32, 32);
+  game.load.spritesheet('goal', 'img/star.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
-  game.load.spritesheet('instruct', 'img/level1_Instructions',255,255);
+  game.load.spritesheet('instruct', 'img/movement_instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
-  game.load.tilemap('Power_Map', 'img/Power_Map.json', null, Phaser.Tilemap.TILED_JSON);
-  game.load.image('tiles1', 'img/Power.png'); //load tileset corresponding level1single.json tilemap
-  game.load.image('tiles2', 'img/Power.png'); //load tileset corresponding level1single.json tilemap
+  game.load.tilemap('level1', 'img/level1singletileset.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
 }
 
 function create() {
@@ -130,7 +125,7 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1600);
+  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1200);
  // game.state.add('Water', Water);
   
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -138,12 +133,10 @@ function create() {
 
   game.stage.backgroundColor = '#363f44';
 
-  map = game.add.tilemap('Power_Map');
-  map.addTilesetImage('Power_Tiles', 'tiles1');
+  map = game.add.tilemap('level1');
+  map.addTilesetImage('level1_tiles', 'tiles1');
   map.setCollisionBetween(0, 10000, true, 'Tile Layer 1'); //0 to 10000 is index of pixels that collied. Tile Layer 1 is what the layer is named in tiled map editor
   map.createLayer('background');
-  layer = map.createLayer('Tile Layer 2');
-  layer = map.createLayer('Tile Layer 1');
 
 
   layer = map.createLayer('Tile Layer 1');
@@ -159,17 +152,17 @@ function create() {
   goombas.setAll('body.gravity.y', 500);
 */
   //INSTRUCTION SPRITE
-  instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
+  instructwindow = game.add.sprite(24, game.world.height - 250, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
   
   //GOAL SPRITE
-  goalstar = game.add.sprite(1500, game.world.height - 40, 'goal');
+  goalstar = game.add.sprite(1000, game.world.height - 120, 'goal');
   game.physics.arcade.enable(goalstar);
   
   //GATE SPRITE
-  gate = game.add.sprite(100, game.world.height - 70, 'gate');
+  gate = game.add.sprite(1300, game.world.height - 84, 'gate');
   game.physics.arcade.enable(gate);
   gate.body.collideWorldBounds = true;
   gate.animations.add('closed', [0, 1], 10, true);
@@ -178,7 +171,7 @@ function create() {
   gate.body.immovable = true;
   
   //PLAYER SPRITE
-  player = game.add.sprite(16, game.world.height - 48, 'mario');
+  player = game.add.sprite(200, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
   player.body.collideWorldBounds = true;
@@ -218,7 +211,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 273);
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1232, 295);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
@@ -229,15 +222,12 @@ function update() {
   
   function goalOverlap(player, goalstar){
     alert("yep");
+    game.state.start('Water');
   }
    
  
  if (key1.isDown) {
-   //space key pressed to execute code
-   // push on end of movement function onto end of character array
    //move gate
-    endOfArray();
-   alert(player_code);
    for (var j = 0; j < gate_code.length; j++){
      (function(n) {
         this.setTimeout(function() { 
@@ -268,10 +258,6 @@ function update() {
           else if((player_code[ind] == 'JL'))
           {
             PlayerJumpLeft();
-          }
-          else if(player_code[ind] == "END")
-          {
-            stopCharacter();
           }
         }, 1500 * ind);
       })(i);
@@ -359,5 +345,59 @@ function update() {
         }*/
     
   }
+ 
+
+  /* if (spaceKey.isDown) {
+    for (var i = 0; i < player_code.length; i++) {
+      player_code[i];
+    }
+
+
+
+
+    /*
+      player_code.reduce((p, fn) => {
+      return p.then(val => {
+          // you may customize what you pass to the next function in the chain
+          // and you may accumulate prior results in some other data structure here
+          return fn(val);
+        });
+      }, Promise.resolve()).then(result => {
+        // all done here
+      }).catch(err => {
+        // error here
+      });
+    }
+*/
+  /*if (cursors.up.isDown && player.body.onFloor()) {
+      player.body.velocity.y = -160;
+      player.animations.stop();
+      player.animations.play('idle');
+    }
+
+  }
+*/
 
 }
+/*
+function goombaOverlap(player, goomba) {
+  $('#myModal').modal('show');
+  
+  if (player.body.touching.down) {
+    goomba.animations.stop();
+    goomba.frame = 2;
+    goomba.body.enable = false;
+    player.body.velocity.y = -80;
+    game.time.events.add(Phaser.Timer.SECOND, function() {
+      goomba.kill();
+    });
+  } else {
+    player.frame = 6;
+    player.body.enable = true;
+    player.animations.stop();
+    game.time.events.add(Phaser.Timer.SECOND * 3, function() {
+      game.paused = false;
+    });
+  }
+}
+*/

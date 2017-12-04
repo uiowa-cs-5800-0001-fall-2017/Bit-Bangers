@@ -58,8 +58,6 @@ function PlayerJumpRight() {
 
 }
 
-
-
 function stopCharacter() {
   this.player.body.velocity = 0;
   player.animations.play('idle');
@@ -67,6 +65,30 @@ function stopCharacter() {
   prevleft = 1000000000;
 
 }
+
+function moveGateUp(numBlocks){
+  gate_code.push('U');
+}
+
+function moveGateDown(numBlocks){
+  gate_code.push('D');
+}
+
+function movePlatformVerticalUp(numBlocks){
+  platform1_code.push('U');
+}
+
+function GateUP(){
+  gate.body.enable = false;
+  gate.animations.play('open');
+ 
+}
+
+function PlatformUP(){
+  platform1.body.velocity.y = -50;
+    
+}
+
 
 function destroySprite(sprite) {
 
@@ -88,6 +110,9 @@ var prevPos = {
 };
 var player_code = [];
 var cursors;
+var key1;
+var gate_code = [];
+var platform1_code = [];
 
 
 function preload() {
@@ -95,8 +120,11 @@ function preload() {
   //game.load.spritesheet('tiles1', 'img/level1_tiles.png', 16, 16);
   game.load.spritesheet('goomba', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/goomba_nmbtds.png', 16, 16);
   game.load.spritesheet('mario', 'img/robot full.png', 17, 25);
+  game.load.spritesheet('goal', 'img/star.png', 32, 32);
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
-  game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
+  game.load.spritesheet('instruct', 'img/forloop_instructions.png', 255, 255);
+  game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
+  game.load.spritesheet('platform', 'img/Platform Sprites/platform-big.png', 80, 47);
 
   game.load.tilemap('Miracle_Map', 'img/Miracle_Map.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/Miracle.png'); //load tileset corresponding level1single.json tilemap
@@ -109,6 +137,11 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
+  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1600);
+ // game.state.add('Water', Water);
+  
+  key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  //key1.onDown.add(executeBlocks, this);
 
   game.stage.backgroundColor = '#363f44';
 
@@ -118,7 +151,9 @@ function create() {
   map.createLayer('background');
   layer = map.createLayer('Tile Layer 2');
   layer = map.createLayer('Tile Layer 1');
-  
+
+
+  layer = map.createLayer('Tile Layer 1');
   layer.resizeWorld();
 
   goombas = game.add.group();
@@ -130,12 +165,32 @@ function create() {
   goombas.setAll('body.velocity.x', -20);
   goombas.setAll('body.gravity.y', 500);
 */
-
-  instructwindow = game.add.sprite(32, game.world.height - 160, 'instruct');
+  //INSTRUCTION SPRITE
+  instructwindow = game.add.sprite(24, game.world.height - 250, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
-
+  
+  platform1 = game.add.sprite(620, game.world.height - 100, 'platform');
+  game.physics.arcade.enable(platform1);
+  
+  platform2 = game.add.sprite(1100, game.world.height - 150, 'platform');
+  game.physics.arcade.enable(platform1);
+  
+  //GOAL SPRITE
+  goalstar = game.add.sprite(1550, game.world.height - 40, 'goal');
+  game.physics.arcade.enable(goalstar);
+  
+  //GATE SPRITE
+  gate = game.add.sprite(2000, game.world.height - 1000, 'gate');
+  game.physics.arcade.enable(gate);
+  gate.body.collideWorldBounds = true;
+  gate.animations.add('closed', [0, 1], 10, true);
+  gate.animations.add('open', [2, 5], 2, true);
+  gate.animations.add('destroyed', [6], 0, true);
+  gate.body.immovable = true;
+  
+  //PLAYER SPRITE
   player = game.add.sprite(16, game.world.height - 48, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
@@ -145,7 +200,7 @@ function create() {
   player.animations.add('jump', [6, 7], 5, true);
   player.animations.add('idle', [0, 5], 5, true);
   player.goesRight = true;
-  game.camera.follow(player);
+  game.camera.focusOn(player);
 
   cursors = game.input.keyboard.createCursorKeys();
 
@@ -159,7 +214,6 @@ function GetAction(action){
     case "J":
       return PlayerJump();
       break;
-      
   }
 }
 
@@ -177,12 +231,45 @@ function PlayerGo(action) {
 }
 
 function update() {
+  game.camera.bounds = new Phaser.Rectangle(0,48, 1600, 295);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
+   game.physics.arcade.collide(player, gate);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
-
- if (cursors.up.isDown) {
+  game.physics.arcade.overlap(player, goalstar, goalOverlap);
+  
+  
+  function goalOverlap(player, goalstar){
+    alert("yep");
+    game.state.start('Water');
+  }
+  
+ 
+ if (key1.isDown) {
+   //move gate
+   for (var j = 0; j < gate_code.length; j++){
+     (function(n) {
+        this.setTimeout(function() { 
+          if(gate_code[n] == 'U')
+          {
+            GateUP();
+          }
+        }, 1500 * n);
+      })(j);
+   }
+   //move platform1
+     for (var j = 0; j < platform1_code.length; j++){
+     (function(n) {
+        this.setTimeout(function() { 
+          if(platform1_code[n] == 'U')
+          {
+            PlatformUP();
+          }
+        }, 1500 * n);
+      })(j);
+   }
+  
    //alert(player_code)
     for (var i = 0; i < player_code.length; i++) {
       (function(ind) {
@@ -207,16 +294,54 @@ function update() {
       })(i);
     }
   }
+  //stop platforms
+  if(platform1.y <= game.world.height - 200){
+      platform1.body.velocity.y = 0;
+      platform1_code.length = 0
+    }
+  
+  //camera controls  
+  if (cursors.up.isDown)
+  {
+      game.camera.y -= 4;
+  }
+  else if (cursors.down.isDown)
+  {
+      game.camera.y += 4;
+  }
 
+  if (cursors.left.isDown)
+  {
+      game.camera.x -= 4;
+  }
+  else if (cursors.right.isDown)
+  {
+      game.camera.x += 4;
+  }
 
+  if (this.game.input.activePointer.isDown) {	
+    if (this.game.origDragPoint) {	
+      this.game.camera.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;		
+      this.game.camera.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;	
+    }
+    this.game.origDragPoint = this.game.input.activePointer.position.clone();
+  }
+  else {	
+    this.game.origDragPoint = null;
+  }
+  if (gate.body.enable) {
+    gate.animations.play('closed');
+    }
+  else{
+    gate.animations.play('destoyed');
+     }
   if (player.body.enable) {
-
-
     /**
      * Checks the robot's current pos, if not at goal keep walking
      **/
     if (player.body.x < prevright + 10 * blockNum) {
       player.animations.play('walkRight');
+      game.camera.focusOn(player);
       player.goesRight = true;
     }
     /**
@@ -224,10 +349,12 @@ function update() {
      **/
     else if (player.body.x > prevleft - 10 * blockNum) {
       player.animations.play('walkLeft');
+      game.camera.focusOn(player);
       player.goesRight = false;
     }
     else if (player.body.velocity.y != 0) {
       player.animations.play('jump');
+      game.camera.focusOn(player);
       if (player.body.onFloor()) {
         stopCharacter();
       }
@@ -253,7 +380,7 @@ function update() {
           //if (player.goesRight) player.frame = 0;
           //else player.frame = 7;
         }*/
-
+    
   }
  
 
