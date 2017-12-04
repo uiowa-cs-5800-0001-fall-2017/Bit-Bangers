@@ -115,7 +115,7 @@ function preload() {
   game.load.spritesheet('instruct', 'img/level1_Instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
 
-  game.load.tilemap('level1', 'img/level1single.json', null, Phaser.Tilemap.TILED_JSON);
+  game.load.tilemap('level1', 'img/level1singletileset.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/level1_tiles.png'); //load tileset corresponding level1single.json tilemap
 }
 
@@ -158,11 +158,11 @@ function create() {
   instructwindow.events.onInputDown.add(destroySprite, this);
   
   //GOAL SPRITE
-  goalstar = game.add.sprite(112, game.world.height - 64, 'goal');
+  goalstar = game.add.sprite(1000, game.world.height - 120, 'goal');
   game.physics.arcade.enable(goalstar);
   
   //GATE SPRITE
-  gate = game.add.sprite(64, game.world.height - 84, 'gate');
+  gate = game.add.sprite(1300, game.world.height - 84, 'gate');
   game.physics.arcade.enable(gate);
   gate.body.collideWorldBounds = true;
   gate.animations.add('closed', [0, 1], 10, true);
