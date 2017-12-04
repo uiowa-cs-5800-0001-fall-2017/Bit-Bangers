@@ -273,6 +273,10 @@ function update() {
           {
             PlayerJumpLeft();
           }
+           else if(player_code[ind] == "END" )
+          {
+            stopCharacter();
+          }
         }, 1500 * ind);
       })(i);
     }
