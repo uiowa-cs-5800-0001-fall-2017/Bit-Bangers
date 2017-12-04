@@ -175,9 +175,13 @@ function create() {
   
   platform1 = game.add.sprite(620, game.world.height - 100, 'platform');
   game.physics.arcade.enable(platform1);
+  platform1.body.allowGravity = false;
+  platform1.body.immovable = true;
   
   platform2 = game.add.sprite(1100, game.world.height - 150, 'platform');
-  game.physics.arcade.enable(platform1);
+  game.physics.arcade.enable(platform2);
+  platform2.body.allowGravity = false;
+  platform2.body.immovable = true;
   
   //GOAL SPRITE
   goalstar = game.add.sprite(1550, game.world.height - 40, 'goal');
@@ -212,7 +216,9 @@ function update() {
   game.camera.bounds = new Phaser.Rectangle(0,0, 1600, 320);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
-   game.physics.arcade.collide(player, gate);
+  game.physics.arcade.collide(player, gate);
+  game.physics.arcade.collide(player, platform1);
+  game.physics.arcade.collide(player, platform2);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
   game.physics.arcade.overlap(player, goalstar, goalOverlap);
