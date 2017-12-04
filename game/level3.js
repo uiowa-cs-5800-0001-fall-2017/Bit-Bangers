@@ -137,7 +137,6 @@ function create() {
   game.scale.pageAlignVertically = true
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  game.camera.bounds = new Phaser.Rectangle(0, 0, 48, 1600);
  // game.state.add('Water', Water);
   
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -166,7 +165,7 @@ function create() {
   goombas.setAll('body.gravity.y', 500);
 */
   //INSTRUCTION SPRITE
-  instructwindow = game.add.sprite(24, game.world.height - 250, 'instruct');
+  instructwindow = game.add.sprite(16, game.world.height - 300, 'instruct');
   instructwindow.inputEnabled = true;
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
@@ -231,7 +230,7 @@ function PlayerGo(action) {
 }
 
 function update() {
-  game.camera.bounds = new Phaser.Rectangle(0,48, 1600, 295);
+  game.camera.bounds = new Phaser.Rectangle(0,0, 1600, 320);
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
