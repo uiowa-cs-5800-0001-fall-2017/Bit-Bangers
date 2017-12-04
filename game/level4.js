@@ -169,8 +169,9 @@ function create() {
   instructwindow.events.onInputDown.add(destroySprite, this);
   
   platform1 = game.add.sprite(900, game.world.height - 100, 'platform');
-  game.physics.arcade.enable(platform1);
-
+  platform1.body.allowGravity = false;
+  platform1.body.immovable = true;
+    
   player = game.add.sprite(900, game.world.height - 400, 'mario');
   game.physics.arcade.enable(player);
   player.body.gravity.y = 400;
