@@ -124,6 +124,7 @@ function preload() {
   game.load.spritesheet('coin', 'https://res.cloudinary.com/harsay/image/upload/v1464614984/coin_iormvy.png', 16, 16);
   game.load.spritesheet('instruct', 'img/ifblock_instructions.png', 255, 255);
   game.load.spritesheet('gate', 'img/Platform Sprites/laser.png', 16, 53);
+  game.load.spritesheet('platform', 'img/Platform Sprites/platform-big.png', 80, 47);
 
   game.load.tilemap('Power_Map', 'img/Power_Map.json', null, Phaser.Tilemap.TILED_JSON);
   game.load.image('tiles1', 'img/Power.png'); //load tileset corresponding level1single.json tilemap
@@ -170,6 +171,11 @@ function create() {
   instructwindow.input.useHandCursor = true;
   instructwindow.events.onInputDown.add(destroySprite, this);
   
+  platform1 = game.add.sprite(1050, game.world.height - 100, 'platform');
+  game.physics.arcade.enable(platform1);
+  platform1.body.allowGravity = false;
+  platform1.body.immovable = true;
+  
   //GOAL SPRITE
   goalstar = game.add.sprite(1500, game.world.height - 40, 'goal');
   game.physics.arcade.enable(goalstar);
@@ -205,6 +211,7 @@ function update() {
   game.physics.arcade.collide(player, layer);
   game.physics.arcade.collide(goombas, layer);
    game.physics.arcade.collide(player, gate);
+   game.physics.arcade.collide(player, platform1);
   //game.physics.arcade.overlap(player, goombas, goombaOverlap);
   //game.physics.arcade.overlap(player, coins, coinOverlap);
   game.physics.arcade.overlap(player, goalstar, goalOverlap);
