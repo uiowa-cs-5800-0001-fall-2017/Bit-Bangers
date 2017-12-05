@@ -37,7 +37,7 @@ function characterJumpLeft() {
 }
 
 function PlayerJumpLeft() {
-  this.player.body.velocity.y = -200;
+  this.player.body.velocity.y = -300;
   setTimeout(function() {
     this.player.body.velocity.x = -40;
     this.player.body.x -= 10;
